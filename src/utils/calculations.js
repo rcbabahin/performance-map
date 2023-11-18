@@ -29,29 +29,30 @@ export const calculateBassSPL = (file) => {
         },
         'Bandwidth SPL': 0
     };
-
+    // save key's name for frequency and SPL from raw data array
     const [ freq, spl ] = Object.keys(file[0]);
-
+    // filter raw data array to start from 20.24 Hz to 20241.84 Hz
     const filteredFile = file.filter(item => item[freq] >= START_FREQ && item[freq] <= END_FREQ);
-
+    // calclulate average SPL of 20-20kHz bandwidth
     bass['0dB'].SPL = calculateSPLInRange(filteredFile, spl);
     bass['-3dB'].SPL = bass['0dB'].SPL - 3;
     bass['-10dB'].SPL = bass['0dB'].SPL - 10;
-
+    // find frequency where corresponding SPL value appears for three dB points
     bass['-10dB'].freq = findCornerFrequency(filteredFile, freq, spl, bass['-10dB'].SPL);
     bass['-3dB'].freq = findCornerFrequency(filteredFile, freq, spl, bass['-3dB'].SPL);
     bass['0dB'].freq = findCornerFrequency(filteredFile, freq, spl, bass['0dB'].SPL);
-
+    // reduce array of raw data to start from -10dB point frequency to 20241.84 Hz
     const reducedFreqRangeFile = filteredFile.filter(item => item[freq] > bass['-10dB'].freq);
-    
+    // calclulate average SPL of -10dB point frequency-20kHz bandwidth
     bass['Bandwidth SPL'] = calculateSPLInRange(reducedFreqRangeFile, spl);
 
     return bass;
 }
 
 export const calculateWeightedSPLAndTHD = (file, cornerFreq) => {
+    // save key's name for frequency, SPL and THD from raw data array
     const [ freq, spl, phase, thd ] = Object.keys(file[0]);
-
+    // add THD calculations to raw data array and reduce bandwidth of data to 17.78-22387.21 Hz
     const oneThirdOctaveFile = file
         .filter(item => item[freq] >= ONE_THIRD_OCTAVE_FREQ)
         .map(item => {
@@ -60,12 +61,16 @@ export const calculateWeightedSPLAndTHD = (file, cornerFreq) => {
         });
 
     const octaveArr = [];
-
+    // divide raw data array to 31 pcs of 17 frequency values and save to octaveArr
     for (let i = 0; i < ONE_THIRD_OCTAVE_NUM; i++) {
         if (i === (ONE_THIRD_OCTAVE_NUM - 1)) octaveArr.push(oneThirdOctaveFile.slice(i * 16, i * 16 + 10))
         else octaveArr.push(oneThirdOctaveFile.slice(i * 16, i * 16 + 17))
     }
 
+    // octaveArr consist of 31 elements, but we should return THD values not for full bandwidth
+    // but only for -10dB corner frequency - 10 kHz bandwidth
+    // so 27 is array index where 10kHz is located
+    // and we should find array index where -10dB corner frequency is located 
     let THDStartIndex = 0;
     const THDEndIndex = 27;
 
@@ -85,9 +90,13 @@ export const calculateWeightedSPLAndTHD = (file, cornerFreq) => {
         }
 
     } 
-
+    // calculate THD for -10dB corner frequency - 10 kHz bandwidth rest of the values are 0
     const calculatedTHD = octaveArr.map((item, index) => {
-        if (index >= THDStartIndex  && index < THDEndIndex) return calculateSPLInRange(item, 'THD[dB]');
+        // here 'item' is array of 17 values 
+        // and we should get average SPL in that range
+        // but only for 10dB corner frequency - 10 kHz bandwidth
+        if (index >= THDStartIndex && index < THDEndIndex) return calculateSPLInRange(item, 'THD[dB]');
+        // for last element where 10kHz is located we should reduce array length because 10kHz is not last element
         else if (index === THDEndIndex) return (calculateSPLInRange(item.filter(el => el[freq] <= 10000), 'THD[dB]')) 
         else return 0;
     });

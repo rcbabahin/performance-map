@@ -1,4 +1,4 @@
-import { calculateBassSPL, calculateWeightedSPLAndTHD } from "../utils/bass.js";
+import { calculateBassSPL, calculateWeightedSPLAndTHD } from "../utils/calculations.js";
 import TableHeader from "./TableHeader.js";
 import TableRow from "./TableRow.js";
 import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip } from "recharts";
@@ -17,6 +17,7 @@ function TableSPL({ data }) {
     const cornerFreq = bass['-10dB'].freq;
     const calculatedData = calculateWeightedSPLAndTHD(data, cornerFreq);     
     const categories = Object.keys(calculatedData[0]);
+    const categoriesHeader = categories.map(cat => cat === 'freq' ? '1/3 octave [Hz]' : `${cat} [dB]`);
     
     const ZData = calculatedData.map(item => ({ freq: item.freq, Z: item.Z }))
     const THDData = calculatedData.map(item => ({ freq: item.freq, THD: item.THD })).filter(item => item.THD > 0);
@@ -29,10 +30,10 @@ function TableSPL({ data }) {
 
     return (
         <div>
-            <span className="table-name">SPL Max no EQ</span>
+            <span className="table-name">SPL Max </span>
             <div className='xl-table'>
                 <TableHeader 
-                    categories={categories}
+                    categories={categoriesHeader}
                     tableIndex={0}
                     handleSortByCategory={handleSortByCategory}
                 />
@@ -48,7 +49,7 @@ function TableSPL({ data }) {
                 <Line data={THDData} type="monotone" dataKey="THD" stroke="#3498db"  strokeWidth={2} />
                 <CartesianGrid stroke="#ccc" strokeDasharray="5 5"  />
                 <XAxis ticks={logAxis} interval={0} type="number" domain={[10,20000]} dataKey="freq" scale="log" tickSize='12' angle='45' />
-                <YAxis domain={[0, 100]} />
+                <YAxis domain={[0, 120]} />
                 <Tooltip />
             </LineChart>
         </div>

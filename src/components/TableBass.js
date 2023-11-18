@@ -1,4 +1,4 @@
-import { calculateBassSPL } from "../utils/bass.js";
+import { calculateBassSPL } from "../utils/calculations.js";
 import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip } from "recharts";
 
 function TableBass({ data }) {
@@ -10,7 +10,7 @@ function TableBass({ data }) {
         {Hz: 20000, SPL: bass['0dB'].SPL.toFixed(2)},
     ]
     
-    const tableHeader = ['-10dB', '-3dB', '0dB', 'Bandwidth SPL'];
+    const tableHeader = ['-10dB [Hz]', '-3dB [Hz]', '0dB [Hz]', 'Bandwidth SPL [dB]'];
     const tableRow = [bass['-10dB'].freq, bass['-3dB'].freq, bass['0dB'].freq, bass['Bandwidth SPL'].toFixed(2)];
 
     return (
@@ -44,7 +44,7 @@ function TableBass({ data }) {
             <Line type="monotone" dataKey="SPL" stroke="#8884d8" strokeWidth={2}/>
                 <CartesianGrid stroke="#ccc" strokeDasharray="5 5"  />
                 <XAxis ticks={logAxis} interval={0} type="number" domain={[10,20000]} dataKey="Hz" scale="log" tickSize='12' angle='45' />
-                <YAxis domain={[0, 100]} />
+                <YAxis domain={[0, 120]} />
                 <Tooltip />
             </LineChart>
         </div>

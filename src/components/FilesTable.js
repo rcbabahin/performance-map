@@ -1,7 +1,7 @@
 import { useState, useCallback } from 'react';
 import TableHeader from './TableHeader';
 import TableRow from './TableRow';
-import TableType from './TableType';
+import TableType from './TableNames';
 import TableBass from './TableBass';
 import TableSPL from './TableSPL';
 
