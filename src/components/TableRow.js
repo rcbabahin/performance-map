@@ -29,7 +29,7 @@ function TableRow({ categories, data, tableIndex, handleEditCellSubmit }) {
     return (
         <div>
             { data.map( (csvData, rowIndex) =>
-                <div className='xl-table-row' key={csvData['Freq[Hz]']} >
+                <div className='xl-table-row' key={csvData[Object.keys(csvData)[0]]} >
                     { categories.map((category, catIndex) => {
                         if (showEditableCell && cellIndex.row === rowIndex && cellIndex.cat === catIndex) {
                             return (
