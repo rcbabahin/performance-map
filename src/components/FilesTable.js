@@ -4,6 +4,7 @@ import TableRow from './TableRow';
 import TableType from './TableNames';
 import TableBass from './TableBass';
 import TableSPL from './TableSPL';
+import Table from './Table';
 
 function FilesTable({ 
     files,
@@ -32,24 +33,16 @@ function FilesTable({
                 handleTableTypeClick={handleTableTypeClick}
                 handleCalculateClick={handleCalculateClick}
             />
-            <div className='xl-table'> 
-                { !showBass &&
-                    <TableHeader 
-                        categories={categories}
-                        tableIndex={tableIndex}
-                        handleSortByCategory={handleSortByCategory}
-                    />
-                }
-                { !showBass &&
-                    <TableRow 
-                        data={files[tableIndex].file}
-                        tableIndex={tableIndex}
-                        categories={categories} 
-                        handleEditCellSubmit={handleEditCellSubmit} 
-                    />
-                }
-
-            </div>
+            { !showBass &&
+                <Table
+                    data={files[tableIndex].file}
+                    categoriesHeader={categories}
+                    categoriesRow={categories}
+                    tableIndex={tableIndex}
+                    handleSortByCategory={handleSortByCategory}
+                    handleEditCellSubmit={handleEditCellSubmit}
+                />
+            }
             { showBass && <TableBass data={files[tableIndex].file} /> }
             { showBass && <TableSPL data={files[tableIndex].file} deviceName={names[tableIndex]} /> }
         </div>
