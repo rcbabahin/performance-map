@@ -108,18 +108,18 @@ header {
 			box-shadow: 0 3px 15px 0px rgba(0,0,0,0.3);
 			cursor: pointer;
 			transition: all 200ms ease;
-
+	
 			&:hover {
 				background-color: #38588c;
 				color: white;
 				transform: scale(1.05);
 			}
 		}
-
+	
 		.active {
 			background-color: #587ab1;
 			color: white;
-
+	
 			&:hover {
 				background-color: #38588c;
 				color: white;
@@ -149,6 +149,50 @@ header {
 	
 			&:hover {
 				background-color: rgb(167, 178, 167);
+				color: white;
+			}
+		}
+	}
+}
+
+.graph-device-name {
+	max-width: 900px;
+	margin: 0 auto;
+	font-size: 20px;
+	padding-top: 35px;
+	font-weight: 600;
+}
+
+.graph-type {
+	max-width: 900px;
+	margin: 0 auto;
+	font-size: 18px;
+	padding-top: 40px;
+
+	.choose-table-type {
+		display: flex;
+		justify-content: space-evenly;
+		
+		.choose-table-type-item {
+			padding: 20px 20px;
+			border-radius: 10px;
+			box-shadow: 0 3px 15px 0px rgba(0,0,0,0.3);
+			cursor: pointer;
+			transition: all 200ms ease;
+	
+			&:hover {
+				background-color: #38588c;
+				color: white;
+				transform: scale(1.05);
+			}
+		}
+	
+		.active {
+			background-color: #587ab1;
+			color: white;
+	
+			&:hover {
+				background-color: #38588c;
 				color: white;
 			}
 		}

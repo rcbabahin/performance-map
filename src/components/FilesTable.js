@@ -51,7 +51,7 @@ function FilesTable({
 
             </div>
             { showBass && <TableBass data={files[tableIndex].file} /> }
-            { showBass && <TableSPL data={files[tableIndex].file} /> }
+            { showBass && <TableSPL data={files[tableIndex].file} deviceName={names[tableIndex]} /> }
         </div>
     );
 }

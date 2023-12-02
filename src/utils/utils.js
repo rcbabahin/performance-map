@@ -33,7 +33,7 @@ export const csvToJson = (csv) => {
 
         json.push(obj);
     }
-    console.log(json)
+
     return json;
 };
 
