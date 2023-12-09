@@ -199,151 +199,189 @@ header {
 	}
 }
 
-.xl-table {
-	position: relative;
-	max-width: 900px;
+.xl-table-container {
+	max-width: 1100px;
 	margin: 0 auto;
 	margin-top: 30px;
-	box-shadow: 0 3px 15px 0px rgba(0,0,0,0.3);
-	border-right: none;
-	border-bottom: none;
-	word-break: break-all;
+	display: grid;
+	grid-template-columns: 100px 900px;
+	grid-template-rows: auto;
 
-	div.xl-table-header {
-		font-weight: 700;
-		display: flex;
-		background-color: rgb(171, 144, 170);
-		color: white;
-		position: sticky;
-		top: 0;
-		z-index: 999;
+	.xl-table {
+		grid-column: 2/3;
 		
-		div {
-			padding: 0px 20px;
-			border-right: 2px solid rgb(167, 178, 167);
-			min-height: 60px;
-			text-align: center;
-			flex: 0 1 250px;
+		box-shadow: 0 3px 15px 0px rgba(0,0,0,0.3);
+		border-right: none;
+		border-bottom: none;
+		word-break: break-all;
+	
+		div.xl-table-header {
+			font-weight: 700;
 			display: flex;
-			justify-content: center;
-			align-items: center;
-
-			&:hover {
-				cursor:n-resize;
-				background-color: #3498db;
+			background-color: rgb(171, 144, 170);
+			color: white;
+			top: 0;
+			z-index: 999;
+			
+			div {
+				padding: 0px 20px;
+				border-right: 2px solid rgb(167, 178, 167);
+				min-height: 60px;
+				text-align: center;
+				flex: 0 1 250px;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+	
+				&:hover {
+					cursor:n-resize;
+					background-color: #3498db;
+				}
+			}
+	
+			div:nth-child(5n) {
+				border: none;
 			}
 		}
-
-		div:nth-child(5n) {
-			border: none;
+	
+		div.xl-table-row {
+			display: flex;
+	
+			&:hover {
+				cursor:pointer;
+				background-color: #e1e4ef;
+			}
+	
+			div {
+				position: relative;
+				padding: 0px 20px;
+				border-right: 2px solid rgb(167, 178, 167);
+				min-height: 60px;
+				text-align: center;
+				flex: 0 1 250px;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+	
+				&:hover {
+					color: white;
+					background-color: #3498db;
+				}
+	
+				div.editable-cell {
+					position: absolute;
+					z-index: 9999;
+					cursor: default;
+					width: 300px;
+					background-color: white;
+					border: 2px solid black;
+					box-shadow: 0 5px 15px 0px rgba(0,0,0,0.5);
+					
+					display: grid;
+					grid-template-columns: 1fr 1fr;
+					grid-template-rows: 0.7fr 1fr 1fr;
+					column-gap: 20px;
+	
+					animation-name: appeare;
+					animation-duration: 200ms;
+	
+					span {
+						display: block;
+						grid-column: 1/3;
+						padding: 20px 0px;
+						color: black;
+						font-weight: bold;
+					}
+	
+					textarea#editable-cell {
+						grid-column: 1/3;
+						height: 50px;
+						padding: 0px 20px;
+						padding-top: 13px;	
+						margin-bottom: 20px;
+						resize: none;
+						border: 2px solid black;
+						outline: none;
+				
+						&:hover {
+							border-color:#7864ED;
+						}
+				
+						&:focus {
+							border-color: #751692;
+						}
+					}
+	
+					button.btn-close {
+						background-color: #38588c;			
+						
+						&:hover {
+							background-color: #587ab1;
+						}
+	
+						&:active {
+							background-color: white;
+							color: black;
+						}
+					}
+	
+					button.btn-submit {
+						background-color: #3498db;
+	
+						&:hover {
+							background-color: #5fa7d6;
+						}
+	
+						&:active {
+							background-color: white;
+							color: black;
+						}
+					}
+				}
+			}
+	
+			div:nth-child(5n) {
+				border: none;
+			}
 		}
-	}
-
-	div.xl-table-row {
-		display: flex;
-
-		&:hover {
-			cursor:pointer;
+	
+		div.xl-table-grey-bg {
 			background-color: #e1e4ef;
 		}
+	}
+	
 
-		div {
-			position: relative;
-			padding: 0px 20px;
-			border-right: 2px solid rgb(167, 178, 167);
-			min-height: 60px;
-			text-align: center;
-			flex: 0 1 250px;
-			display: flex;
-			justify-content: center;
-			align-items: center;
+	.collapse-button {
+		grid-column: 1/2;
+		
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		background-color: #f2f2f2;
+		border-radius: 50%;
+		width: 50px;
+		height: 50px;
+		top: 5px;
+		left: -10%;
+		color: rgb(75, 72, 72);
+		cursor: pointer;
+		font-size: 40px;
+		z-index: 1000;
+		-webkit-transition: all 200ms ease-in-out;
+		transition: all 200ms ease-in-out;
 
-			&:hover {
-				color: white;
-				background-color: #3498db;
-			}
-
-			div.editable-cell {
-				position: absolute;
-				z-index: 9999;
-				cursor: default;
-				width: 300px;
-				background-color: white;
-				border: 2px solid black;
-				box-shadow: 0 5px 15px 0px rgba(0,0,0,0.5);
-				
-				display: grid;
-				grid-template-columns: 1fr 1fr;
-				grid-template-rows: 0.7fr 1fr 1fr;
-				column-gap: 20px;
-
-				animation-name: appeare;
-				animation-duration: 200ms;
-
-				span {
-					display: block;
-					grid-column: 1/3;
-					padding: 20px 0px;
-					color: black;
-					font-weight: bold;
-				}
-
-				textarea#editable-cell {
-					grid-column: 1/3;
-					height: 50px;
-					padding: 0px 20px;
-					padding-top: 13px;	
-					margin-bottom: 20px;
-					resize: none;
-					border: 2px solid black;
-					outline: none;
-			
-					&:hover {
-						border-color:#7864ED;
-					}
-			
-					&:focus {
-						border-color: #751692;
-					}
-				}
-
-				button.btn-close {
-					background-color: #38588c;			
-					
-					&:hover {
-						background-color: #587ab1;
-					}
-
-					&:active {
-						background-color: white;
-						color: black;
-					}
-				}
-
-				button.btn-submit {
-					background-color: #3498db;
-
-					&:hover {
-						background-color: #5fa7d6;
-					}
-
-					&:active {
-						background-color: white;
-						color: black;
-					}
-				}
-			}
+		&:hover {
+			background-color: #e0e0e0;
+			transform: scale(1.2);
 		}
-
-		div:nth-child(5n) {
-			border: none;
+	
+		&:active {
+			background-color: #c5c5c5;
 		}
 	}
 
-	div.xl-table-grey-bg {
-		background-color: #e1e4ef;
-	}
 }
+
 
 span.table-name {
 	font-size: 1.5em;
@@ -400,6 +438,24 @@ span.table-name {
 	div.table-bass-header-item {
 		color:white;
 		background-color:  rgb(171, 144, 170);
+	}
+}
+
+
+#error-page {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	height: 100vh;
+
+	h1 {
+		margin-bottom: 50px;
+	}
+
+	p {
+		margin-bottom: 50px;
 	}
 }
 
@@ -467,6 +523,10 @@ span.table-name {
 	from {top: -300px; opacity: 0}
 	to {top: 0; opacity: 1}
  }
+
+// @keyframes identifier {
+// 	from { h }
+// }
 
 //  @-webkit-keyframes appeare {
 // 	from {top: 100px; opacity: 0}
