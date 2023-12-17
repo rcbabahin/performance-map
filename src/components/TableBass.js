@@ -1,5 +1,4 @@
 import { calculateBassSPL } from "../utils/calculations.js";
-import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, Legend, ReferenceLine } from "recharts";
 import GraphBass from "./GraphBass.js";
 
 function TableBass({ data }) {

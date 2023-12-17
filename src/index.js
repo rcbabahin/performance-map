@@ -1,24 +1,49 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import reportWebVitals from './reportWebVitals';
+import reportWebVitals from './reportWebVitals.js';
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { Provider } from 'react-redux';
 
 import './styles/index.scss';
-import Main from './components/Main';
-import ErrorPage from "./components/ErrorPage";
-
+import App from './App.js';
+import ErrorPage from "./components/ErrorPage.js";
+import Main from './components/Main.js';
+import Home from './components/Home.js';
+import PanelForm from './components/PanelForm/PanelForm.js';
+import store from './store.js';
 
 const router = createBrowserRouter([  
-  {
-    path: "/performance-map/",
-    element: <Main />,
-    errorElement: <ErrorPage />,
-  },
-]);
+    {
+        path: "/",
+        element: <App />,
+        children: [
+            {
+                path: '/',
+                element: <Home />
+            },
+            {
+                path: 'calculations',
+                element: <Main />
+            },
+            {
+                path: 'add-new-device',
+                element: <PanelForm />
+            },
+        ],
+        errorElement: <ErrorPage />,
+    },
+],
+{
+    basename: '/performance-map'
+});
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
+
 root.render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <Provider store={store}>
+        <RouterProvider router={router} />
+    </Provider>
   </React.StrictMode>
 );
 

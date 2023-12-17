@@ -1,6 +1,6 @@
 import { useState, useCallback } from 'react';
-import  Header from './Header';
-import FilesTable from './FilesTable';
+import  Header from './Header.js';
+import FilesTable from './FilesTable.js';
 import { csvToJson } from '../utils/utils.js'
 
 function Main(props) {

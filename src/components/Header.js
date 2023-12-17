@@ -1,4 +1,4 @@
-import  FilesList from './FilesList';
+import  FilesList from './FilesList.js';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFileCsv } from '@fortawesome/free-solid-svg-icons';
 
@@ -7,7 +7,6 @@ const Header = ({ files, handleFileChange, handleViewClick }) => {
 
     return (
         <header>
-            <div className='project-name'>Sound Performance Map</div>
             <div className='upload-files'>
                 <div>
                     <label htmlFor="upload-file"><FontAwesomeIcon icon={faFileCsv}  size="xl" />Choose Files </label>

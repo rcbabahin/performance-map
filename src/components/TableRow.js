@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import EditableCell from './EditableCell';
+import EditableCell from './EditableCell.js';
 
 function TableRow({ categories, data, tableIndex, handleEditCellSubmit }) {
     const [editableCell, setEditCell] = useState({

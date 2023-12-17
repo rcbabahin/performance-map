@@ -37,3 +37,29 @@ export const csvToJson = (csv) => {
     return json;
 };
 
+const API_ROOT = 'http://localhost:3001';
+ 
+export const httpPostDevice = async (device) => {
+    try {
+        const response = await fetch(`${API_ROOT}/register`, {  
+            method: 'POST',
+            mode: 'cors',
+            headers: {
+                'Content-Type': 'application/json',
+                // 'x-access-token': auth.getBackendToken()
+            },
+            body: JSON.stringify(device)
+        });
+        
+        if (response.ok) {
+            return response.json();
+        } else {
+            throw new Error(await response.json());            
+        }
+    } catch (e) {
+        return new Promise((resolve, reject) => {
+            reject(e)
+        })
+    }
+}
+

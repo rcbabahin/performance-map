@@ -1,4 +1,4 @@
-import Button from './Button';
+import Button from './Button.js';
 
 function TableNames({ tableTypes, tableIndex, handleTableTypeClick, handleCalculateClick }) {
     const tables = tableTypes.map(tableName => tableName.slice(0, -4));
