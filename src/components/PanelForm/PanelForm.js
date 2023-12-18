@@ -6,13 +6,15 @@ import PanelFormUpload from "./PanelFormUpload.js";
 import { csvToJson } from '../../utils/utils.js';
 import { useSelector, useDispatch } from 'react-redux';
 import { registerDevice } from '../../reducers/devices.js';
+import Modal from '../Modal/Modal.js';
 
 function PanelForm(props) {
     const [file, setFile] = useState({
 		measurements: [],
         name: '',
 		isValid: false,
-        show: false
+        showValidation: false,
+        showModal: false
 	});
 
     const status = useSelector(state => state.devices.status)
@@ -43,7 +45,11 @@ function PanelForm(props) {
             measurements
         };
 
-        dispatch(registerDevice(device))
+        dispatch(registerDevice(device));
+        setFile({
+            ...file,
+            showModal: true
+        })
     }
 
     const handleCancel = (e) => {
@@ -69,7 +75,7 @@ function PanelForm(props) {
                     name,
                     isValid,
                     measurements: fileData,
-                    show: true
+                    showValidation: true
                 });
             }
         }
@@ -105,24 +111,37 @@ function PanelForm(props) {
         };
     }
 
+    const handleModalClose = (e) => {
+        e.preventDefault();
+
+        setFile({
+            ...file,
+            showModal: false
+        })
+    }
+
     if (status === 'loading')
         return <div className='loading'/>
 
   	return (
-        <div className='panel-form'>
-            <h1>Add new device</h1>
-            <form id='add-feedback-form' onSubmit={handleSubmit}>
-                <PanelFormInput ref={inputName} text='Device' placeholder="Type device's name" />
-                <PanelFormInput ref={inputCompany} text='Company' placeholder="Type company's name" />
-                <PanelFormSelect ref={select} />
-                <PanelFormUpload 
-                    fileName={file.name}
-                    show={file.show}
-                    isValid={file.isValid}
-                    handleFileChange={handleFileChange}
-                    handleCancel={handleCancel} />
-            </form>
+        <div>
+            { file.showModal && <Modal handleModalClose={handleModalClose} />}
+            <div className='panel-form'>
+                <h1>Add new device</h1>
+                <form id='add-feedback-form' onSubmit={handleSubmit}>
+                    <PanelFormInput ref={inputName} text='Device' placeholder="Type device's name" />
+                    <PanelFormInput ref={inputCompany} text='Company' placeholder="Type company's name" />
+                    <PanelFormSelect ref={select} />
+                    <PanelFormUpload 
+                        fileName={file.name}
+                        showValidation={file.showValidation}
+                        isValid={file.isValid}
+                        handleFileChange={handleFileChange}
+                        handleCancel={handleCancel} />
+                </form>
+            </div>
         </div>
+
   	);
 }
 

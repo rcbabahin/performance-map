@@ -63,3 +63,18 @@ export const httpPostDevice = async (device) => {
     }
 }
 
+export const httpGetDevices = async () => {
+    try {
+        const response = await fetch(`${API_ROOT}/devices`);
+        
+        if (response.ok) {
+            return response.json();
+        } else {
+            throw new Error(await response.json());            
+        }
+    } catch (e) {
+        return new Promise((resolve, reject) => {
+            reject(e)
+        })
+    }
+}

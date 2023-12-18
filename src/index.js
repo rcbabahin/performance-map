@@ -11,6 +11,7 @@ import Main from './components/Main.js';
 import Home from './components/Home.js';
 import PanelForm from './components/PanelForm/PanelForm.js';
 import store from './store.js';
+import Calculations from './components/Calculations/Calculations.js';
 
 const router = createBrowserRouter([  
     {
@@ -23,7 +24,7 @@ const router = createBrowserRouter([
             },
             {
                 path: 'calculations',
-                element: <Main />
+                element: <Calculations />
             },
             {
                 path: 'add-new-device',
