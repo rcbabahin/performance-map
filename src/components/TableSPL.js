@@ -10,7 +10,7 @@ function TableSPL({ data, deviceName }) {
     const cornerFreq = bass['-10dB'].freq;
 
     const calculatedData = calculateWeightedSPLAndTHD(data, cornerFreq);     
-
+console.log(calculatedData);
     const categories = Object.keys(calculatedData[0]);
     const categoriesHeader = categories.map(cat => cat === 'freq' ? '1/3 octave [Hz]' : `${cat} [dB]`);
     
@@ -36,7 +36,7 @@ function TableSPL({ data, deviceName }) {
                 handleEditCellSubmit={e => {}} 
             />
             <GraphSPL 
-                name={deviceName.slice(0, -4)} 
+                name={deviceName} 
                 rawData={rawData} 
                 graphData={graphData} 
                 THDData={THDData}

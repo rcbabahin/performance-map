@@ -1,8 +1,8 @@
-function TableHeader({ categories, tableIndex, handleSortByCategory, sticky }) {
+function TableHeader({ categories, sticky }) {
     return (
         <div className='xl-table-header' style={{ position: sticky ? 'sticky' : 'relative'}}  >
             { categories.map(category =>
-                <div key={category} onClick={handleSortByCategory(category, tableIndex)}>
+                <div key={category}>
                     {category}
                 </div>							
             )}

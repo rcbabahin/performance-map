@@ -1,29 +1,73 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getDevices } from "../../reducers/devices.js";
+import { getDevices, setCurrentDeviceId, setFilter } from "../../reducers/devices.js";
+import CalculationsTable from "./CalculationsTable.js";
+
+const categoriesObj = {
+	'All': 'All',
+	'Extra Small': 'xs',
+	'Small': 's',
+	'Medium': 'm',
+	'Large': 'l',
+	'Extra Large': 'xl'
+}
 
 function Calculations(props) {
-	const dispatch = useDispatch();
 
-	useEffect(() => {
-		
-        dispatch(getDevices())
-    }, [])
+	const dispatch = useDispatch();
 
 	const status = useSelector(state => state.devices.status);
 	const companies = useSelector(state => state.devices.companies);
-	const categories = useSelector(state => state.devices.categories);
+	const categories = Object.keys(categoriesObj);
+	const filter = useSelector(state => state.devices.filter);
+	const currentDeviceId = useSelector(state => state.devices.currentDeviceId); 
+
+	useEffect(() => {
+
+		if (status === 'idle') {
+			dispatch(getDevices())
+		}
+		
+    }, [status, dispatch])
+
+	const handleClick = (type) => (e) => {
+		const innerText = e.target.innerText;
+		let newFilter = {};
+
+		if (type === 'company') {
+			newFilter = {
+				company: innerText,
+				category: filter.category,
+			}
+		} else if (type === 'category') {
+			newFilter = {
+				company: filter.company,
+				category: innerText,
+			}
+		}
+
+		dispatch(setFilter({
+			...newFilter
+		}))
+	}
+
+	const handleActiveDevice = (id) => (e) => {
+		dispatch(setCurrentDeviceId(id));
+	}
 
 	if (status === 'loading') 
 		return <div className='loading'/>
-
 
     return (
 		<div className='calculations-container'>
 			<aside className='calculations-companies'>
 				{
 					companies.map( company => 
-						<div key={company} className="calculations-companies-item" >
+						<div 
+							key={company} 
+							className={`calculations-companies-item ${company === filter.company ? 'active': ''}`} 
+							onClick={handleClick('company')}
+						>
 							{company}
 						</div>
 					)
@@ -32,16 +76,35 @@ function Calculations(props) {
 			<aside className='calculations-categories'>
 				{
 					categories.map( category => 
-						<div key={category} className="calculations-categories-item" >
+						<div 
+							key={category} 
+							className={`calculations-categories-item ${category === filter.category ? 'active': ''}`} 
+							onClick={handleClick('category')}
+						>
 							{category}
 						</div>
 					)
 				}
 			</aside>
-			<div className='calculations-devices-names'></div>
-			<section className='calculations-table'>
-
-			</section>
+			<div className='calculations-devices-names'>
+				{	currentDeviceId !== 0 &&
+					filter.devices.map( ({ id, name }) => 
+						<div 
+							key={id} 
+							className={`calculations-devices-names-item ${id === currentDeviceId ? 'active': ''}`}
+							onClick={handleActiveDevice(id)}
+						>
+							{name}
+						</div>
+					)
+				}
+			</div>
+			{ status === 'succeded' &&
+				<CalculationsTable />
+			}
+			{ status === 'failed' &&
+				<div>Error fetching data from server</div>
+			}
 		</div>
     );
 }

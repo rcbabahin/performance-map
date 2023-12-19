@@ -78,3 +78,19 @@ export const httpGetDevices = async () => {
         })
     }
 }
+
+export const httpGetMeasurements = async () => {
+    try {
+        const response = await fetch(`${API_ROOT}/measurements`);
+        
+        if (response.ok) {
+            return response.json();
+        } else {
+            throw new Error(await response.json());            
+        }
+    } catch (e) {
+        return new Promise((resolve, reject) => {
+            reject(e)
+        })
+    }
+}

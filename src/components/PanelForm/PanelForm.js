@@ -45,6 +45,8 @@ function PanelForm(props) {
             measurements
         };
 
+        console.log(measurements);
+
         dispatch(registerDevice(device));
         setFile({
             ...file,

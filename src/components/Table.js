@@ -4,7 +4,7 @@ import TableRow from "./TableRow.js";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
 
-function Table({ data, categoriesRow, categoriesHeader, tableIndex, handleSortByCategory, handleEditCellSubmit }) {
+function Table({ data, categoriesRow, categoriesHeader }) {
 
     const [ isCollapsed, setCollapse ] = useState(false);
 
@@ -25,15 +25,11 @@ function Table({ data, categoriesRow, categoriesHeader, tableIndex, handleSortBy
             <div className='xl-table'>
                 <TableHeader 
                     categories={categoriesHeader}
-                    tableIndex={tableIndex}
-                    handleSortByCategory={handleSortByCategory}
                     sticky={!isCollapsed}
                 />
                 <TableRow 
                     data={rowData}
                     categories={categoriesRow} 
-                    tableIndex={tableIndex}
-                    handleEditCellSubmit={handleEditCellSubmit} 
                 />
             </div>
         </div>

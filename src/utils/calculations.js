@@ -56,8 +56,11 @@ export const calculateWeightedSPLAndTHD = (file, cornerFreq) => {
     const oneThirdOctaveFile = file
         .filter(item => item[freq] >= ONE_THIRD_OCTAVE_FREQ)
         .map(item => {
-            item['THD[dB]'] = (20 * Math.log10(item[thd] / 100)) + item[spl];
-            return item;
+            // item['THD[dB]'] = (20 * Math.log10(item[thd] / 100)) + item[spl];
+            return { 
+                ...item,
+                'THD[dB]': (20 * Math.log10(item[thd] / 100)) + item[spl]
+            };
         });
 
     const octaveArr = [];
