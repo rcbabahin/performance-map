@@ -1,14 +1,15 @@
 const handleRegister = (db) => (req, res) => {
-    const { name, company, category, measurements } = req.body;
+    const { name, company, category, size, measurements } = req.body;
     
-    if (!name || !company || !category || !measurements)
+    if (!name || !company || !category || !measurements || !size)
         return res.status(400).json('Incorrect form submition')
     
     db.transaction(trx => {
         trx.insert({
             name,
             company,
-            category
+            category,
+            size
         })
         .into('devices')
         .returning('id')

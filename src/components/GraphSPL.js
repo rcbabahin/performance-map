@@ -1,23 +1,29 @@
 import { useState } from 'react';
 import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, Legend, ReferenceLine } from "recharts";
 
-function GraphSPL({ graphData, rawData, name, THDData, averageSPL }) {
+function GraphSPL({ graphData, rawData, THDData, averageSPL }) {
     const [ dataKey, setDataKey ] = useState('Z');
+    const [ refLineValue, setRefLineValue ] = useState(6);
 
     const handleShowGraphData = (wieght) => (e) => {
         setDataKey(wieght);
     }
+
+    const handleRefLine = (e) => {
+        setRefLineValue(refLineValue === 6 ? 3 : 6);
+    }
+
     return (
         <div>
-            <div className="graph-device-name">{name}</div>
-
             <div className="graph-type">
                 <div className='choose-table-type'>
                     <div onClick={handleShowGraphData('Z')} className={`choose-table-type-item ${dataKey === 'Z' ? 'active' : ''}`}> Show Z-weightened</div>
                     <div onClick={handleShowGraphData('A')} className={`choose-table-type-item ${dataKey === 'A' ? 'active' : ''}`}> Show A-weightened</div>
                     <div onClick={handleShowGraphData('C')} className={`choose-table-type-item ${dataKey === 'C' ? 'active' : ''}`}> Show C-weightened</div>
                     <div onClick={handleShowGraphData('raw')} className={`choose-table-type-item ${dataKey === 'raw' ? 'active' : ''}`}> Show Raw</div>
+                    <div onClick={handleRefLine} className="choose-table-type-item">Set {refLineValue === 6 ? '±3dB' : '±6dB'} Reference</div>
                 </div>
+                {/* <div onClick={handleRefLine} className="toggle-ref-line">Toggle RefLine</div> */}
             </div>
 
             <LineChart 
@@ -38,17 +44,17 @@ function GraphSPL({ graphData, rawData, name, THDData, averageSPL }) {
                     strokeWidth={2} />
                 <ReferenceLine 
                     y={averageSPL} 
-                    label={{position: 'insideBottomLeft', value: averageSPL.toFixed(2) , fill: 'black'}} 
+                    label={{position: {x: 50, y: 5}, value: averageSPL.toFixed(2) , fill: 'black'}} 
                     stroke="green" />
                 <ReferenceLine 
-                    y={averageSPL + 6} 
-                    label={{position: 'insideBottomLeft', value: (averageSPL + 6).toFixed(2)}}
+                    y={averageSPL + refLineValue} 
+                    label={{position: 'insideBottomLeft', value: (averageSPL + refLineValue).toFixed(2)}}
                     stroke="green" 
                     strokeDasharray="10 10" 
                     strokeWidth={2}/>
                 <ReferenceLine 
-                    y={averageSPL - 6}
-                    label={{position: 'insideBottomLeft', value: (averageSPL - 6).toFixed(2)}}
+                    y={averageSPL - refLineValue}
+                    label={{position: 'insideTopLeft', value: (averageSPL - refLineValue).toFixed(2)}}
                     stroke="green"
                     strokeDasharray="10 10"
                     strokeWidth={2}/>

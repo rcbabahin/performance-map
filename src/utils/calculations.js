@@ -106,13 +106,29 @@ export const calculateWeightedSPLAndTHD = (file, cornerFreq) => {
 
     const ZWeightSPL = octaveArr.map(item => calculateSPLInRange(item, spl));
 
-    return ZWeightSPL.map((item, index) => ({
+    const ret = ZWeightSPL.map((item, index) => ({
         freq: oneThirdOctaveFreq[index].toFixed(2),
         Z: item.toFixed(2),
         A: item + weightA[index] > 0 ? (item + weightA[index]).toFixed(2) : 0,
         C: (item + weightC[index]).toFixed(2),
         THD: calculatedTHD[index].toFixed(2)
     }));
+
+    const splInRange = []
+    
+    ret.forEach(item => {
+        if (item.freq > 125 && item.freq < 20000) {
+            splInRange.push((item.Z))
+        }
+    })
+    
+    const maxSpl = Math.max(...splInRange);
+    const minSpl = Math.min(...splInRange);
+    const splDeviation = maxSpl - minSpl;
+
+    ret.flatnessIndex = (10 - Math.sqrt(splDeviation)).toFixed(2);
+
+    return ret
 }
 
 const oneThirdOctaveFreq = [

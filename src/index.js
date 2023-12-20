@@ -7,11 +7,11 @@ import { Provider } from 'react-redux';
 import './styles/index.scss';
 import App from './App.js';
 import ErrorPage from "./components/ErrorPage.js";
-import Main from './components/Main.js';
 import Home from './components/Home.js';
 import PanelForm from './components/PanelForm/PanelForm.js';
 import store from './store.js';
 import Calculations from './components/Calculations/Calculations.js';
+import Compare from './components/Compare/Compare.js';
 
 const router = createBrowserRouter([  
     {
@@ -23,12 +23,24 @@ const router = createBrowserRouter([
                 element: <Home />
             },
             {
+                path: 'add-new-device',
+                element: <PanelForm />
+            },
+            {
                 path: 'calculations',
                 element: <Calculations />
             },
             {
-                path: 'add-new-device',
-                element: <PanelForm />
+                path: 'compare',
+                element: <Compare />
+            },
+            {
+                path: 'indexes',
+                element: <div>Nothings here</div>
+            },
+            {
+                path: 'info',
+                element: <div>Nothings here</div>
             },
         ],
         errorElement: <ErrorPage />,

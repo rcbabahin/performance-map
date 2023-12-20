@@ -3,7 +3,7 @@ import { forwardRef } from "react";
 const PanelFormInput = forwardRef(({ text, placeholder }, ref) => {
     return (
         <div>
-            <label htmlFor="feedback-name">{text}'s name:</label><br/>
+            <label htmlFor="feedback-name">{text}:</label><br/>
             <input 
                 required 
                 ref={ref}

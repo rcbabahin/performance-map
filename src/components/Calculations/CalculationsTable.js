@@ -16,7 +16,6 @@ function CalculationsTable() {
 
     useEffect(() => {
         if (status === 'idle') {
-            // console.log(company)
             dispatch(getMeasurements());
         }
     
@@ -27,10 +26,16 @@ function CalculationsTable() {
 	if (status === 'loading') 
 		return <div className='loading'/>
     if (status === 'succeded') {
-        const { items } = measurements.find(({ id }) => id === deviceId)
-        const { name } = devices.find(({ id }) => id === deviceId);
+        let items = [];
+        const meas = measurements.find(({ id }) => id === deviceId);
+        const device = devices.find(({ id }) => id === deviceId);
 
-        content = <FilesTable  file={items} name={name}/>
+        if (typeof meas === 'undefined' || typeof device === 'undefined') {
+            content = <div style={{ margin : '30px 100px', color: 'red'}}>No devices found</div>
+        } else {
+            items = [...meas.items];
+            content = <FilesTable  file={items} name={device.name}/>
+        }
     }
 
     return (

@@ -10,7 +10,7 @@ const db = knex({
     connection: {
         host: '127.0.0.1',
         user: 'postgres',
-        password: 'solohi80',
+        password: '',
         database: 'audio_test'
     }
 });
@@ -33,15 +33,15 @@ app.get('/devices', (req, res) => {
 })
 
 const database = [
-    {id: 1 , name: 'Cucumber', company: 'Yandex', category: 's'},
-    {id: 2 , name: 'Chiron', company: 'Yandex', category: 'l'},
-    {id: 3 , name: 'Echo Dot', company: 'Amazon', category: 's'},
-    {id: 4 , name: 'CaplusaMini', company: 'VK', category: 'xs'},
-    {id: 5 , name: 'CapsulaNeo', company: 'VK', category: 's'},
-    {id: 6 , name: 'Citation500', company: 'Harman Kardon', category: 'l'},
-    {id: 7 , name: 'asdasdasdasd', company: 'Yandex', category: 'l'},
-    {id: 8 , name: 'asdasdasdasdd', company: 'Yandex', category: 'l'},
-    {id: 9 , name: 'asdasdasdasd1123', company: 'Yandex', category: 'l'},
+    {id: 1 , name: 'Cucumber_vol30max_noEQ_smooth1per2222', company: 'Yandex', category: 's', size: 0.9},
+    {id: 2 , name: 'Chiron', company: 'Yandex', category: 'l', size: 0.25},
+    {id: 3 , name: 'Echo Dot', company: 'Amazon', category: 'xs', size: 0.3},
+    {id: 4 , name: 'CaplusaMini', company: 'VK', category: 'xs', size: 0.43},
+    {id: 5 , name: 'CapsulaNeo', company: 'VK', category: 's', size: 0.2},
+    {id: 6 , name: 'Citation500', company: 'Harman Kardon', category: 'l', size: 0.9},
+    {id: 7 , name: 'asdasdasdasd', company: 'Yandex', category: 'l', size: 0.7},
+    {id: 8 , name: 'asdasdasdasdd', company: 'Yandex', category: 'l', size: 0.6},
+    {id: 9 , name: 'asdasdasdasd1123', company: 'Yandex', category: 'l', size: 0.55},
 ]
 // {id: 8 , name: 'asdasdasdasdd', company: 'Yandex', category: 'l'},
 // {id: 9 , name: 'asdasdasdasd1123', company: 'Yandex', category: 'l'},
@@ -85,6 +85,10 @@ app.get('/measurements', (req, res) => {
         })
         .catch(err => res.status(400).json('Error getting devices'))
 })
+
+// app.get('/measurements', (req, res) => {
+//     res.json(measurements)
+// })
 
 app.post('/register', handleRegister(db));
 

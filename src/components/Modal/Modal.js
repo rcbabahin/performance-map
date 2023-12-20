@@ -5,9 +5,12 @@ function Modal({ handleModalClose }) {
     const error = useSelector(state => state.devices.error);
     let text = '';
 
+    if (status === 'loading')
+        return <div className='loading'/>
+
     if (status === 'failed') {
         text = `⛔ Error saving to Database: "${error}"`
-    } else if (status === 'succeeded') {
+    } else if (status === 'succeded') {
         text = '✨ All measurements succesfully saved into Database!'
     }
     

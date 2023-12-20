@@ -50,6 +50,13 @@ const devicesSlice = createSlice({
         },
         setCurrentDeviceId(state, action) {
             state.currentDeviceId = action.payload;
+        },
+        addDevicesOption(state, action) {
+            const { optionName, optionValue } = action.payload;
+            state.devices = state.devices.map(device => {
+                device[optionName] = optionValue;
+                return device
+            })
         }
     },
     extraReducers: (builder) => {
@@ -103,7 +110,7 @@ export const getDevices = createAsyncThunk(
     return await httpGetDevices()
 })
 
-export const { setFilter, setCurrentDeviceId } = devicesSlice.actions;
+export const { setFilter, setCurrentDeviceId, addDevicesOption } = devicesSlice.actions;
 
 export default devicesSlice.reducer;
 

@@ -60,51 +60,56 @@ function Calculations(props) {
 
     return (
 		<div className='calculations-container'>
-			<aside className='calculations-companies'>
-				{
-					companies.map( company => 
-						<div 
-							key={company} 
-							className={`calculations-companies-item ${company === filter.company ? 'active': ''}`} 
-							onClick={handleClick('company')}
-						>
-							{company}
-						</div>
-					)
+			<div className="calculations-container-aside">
+				<aside className='calculations-companies'>
+					{
+						companies.map( company => 
+							<div 
+								key={company} 
+								className={`calculations-companies-item ${company === filter.company ? 'active': ''}`} 
+								onClick={handleClick('company')}
+							>
+								{company}
+							</div>
+						)
+					}
+				</aside>
+				<aside className='calculations-categories'>
+					{
+						categories.map( category => 
+							<div 
+								key={category} 
+								className={`calculations-categories-item ${category === filter.category ? 'active': ''}`} 
+								onClick={handleClick('category')}
+							>
+								{category}
+							</div>
+						)
+					}
+				</aside>
+				<div className='calculations-devices-names'>
+					{	currentDeviceId !== 0 &&
+						filter.devices.map( ({ id, name }) => 
+							<div 
+								key={id} 
+								className={`calculations-devices-names-item ${id === currentDeviceId ? 'active': ''}`}
+								onClick={handleActiveDevice(id)}
+							>
+								{name.length > 35 ? `${name.slice(0, 35)}...` : name}
+							</div>
+						)
+					}
+				</div>
+			</div>
+			<div className="calculations-container-main">
+
+				{ status === 'succeded' &&
+					<CalculationsTable />
 				}
-			</aside>
-			<aside className='calculations-categories'>
-				{
-					categories.map( category => 
-						<div 
-							key={category} 
-							className={`calculations-categories-item ${category === filter.category ? 'active': ''}`} 
-							onClick={handleClick('category')}
-						>
-							{category}
-						</div>
-					)
-				}
-			</aside>
-			<div className='calculations-devices-names'>
-				{	currentDeviceId !== 0 &&
-					filter.devices.map( ({ id, name }) => 
-						<div 
-							key={id} 
-							className={`calculations-devices-names-item ${id === currentDeviceId ? 'active': ''}`}
-							onClick={handleActiveDevice(id)}
-						>
-							{name}
-						</div>
-					)
+				{ status === 'failed' &&
+					<div>Error fetching data from server</div>
 				}
 			</div>
-			{ status === 'succeded' &&
-				<CalculationsTable />
-			}
-			{ status === 'failed' &&
-				<div>Error fetching data from server</div>
-			}
 		</div>
     );
 }

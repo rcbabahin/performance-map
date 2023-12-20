@@ -23,6 +23,7 @@ function PanelForm(props) {
 
     const inputName = useRef(null);
     const inputCompany = useRef(null);
+    const inputSize = useRef(null);
     const select = useRef(null);
 
     const handleSubmit = (e) => {
@@ -41,11 +42,12 @@ function PanelForm(props) {
         const device = {
             name: inputName.current.value.trim(),
             company: inputCompany.current.value.trim(),
+            size: inputSize.current.value.trim().replace(',', '.'),
             category: category[select.current.value],
             measurements
         };
 
-        console.log(measurements);
+        // console.log(measurements);
 
         dispatch(registerDevice(device));
         setFile({
@@ -131,8 +133,9 @@ function PanelForm(props) {
             <div className='panel-form'>
                 <h1>Add new device</h1>
                 <form id='add-feedback-form' onSubmit={handleSubmit}>
-                    <PanelFormInput ref={inputName} text='Device' placeholder="Type device's name" />
-                    <PanelFormInput ref={inputCompany} text='Company' placeholder="Type company's name" />
+                    <PanelFormInput ref={inputName} text="Device's name" placeholder="Type device's name" />
+                    <PanelFormInput ref={inputCompany} text="Company's name" placeholder="Type company's name" />
+                    <PanelFormInput ref={inputSize} text="Device's Size" placeholder="Type devices's volume" />
                     <PanelFormSelect ref={select} />
                     <PanelFormUpload 
                         fileName={file.name}

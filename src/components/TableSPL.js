@@ -1,16 +1,29 @@
 
+import { useDispatch } from "react-redux";
+import { addDevicesOption } from "../reducers/devices.js";
+import { useEffect } from "react";
+
 import { calculateBassSPL, calculateWeightedSPLAndTHD } from "../utils/calculations.js";
 
 import GraphSPL from "./GraphSPL.js";
 import Table from "./Table.js";
 
-function TableSPL({ data, deviceName }) {
+function TableSPL({ data }) {
+    
     const bass = calculateBassSPL(data);
     const averageSPL = bass['0dB'].SPL;
     const cornerFreq = bass['-10dB'].freq;
 
     const calculatedData = calculateWeightedSPLAndTHD(data, cornerFreq);     
-console.log(calculatedData);
+    // console.log(calculatedData);
+
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        // dispatch(addDevicesOption({ optionName: 'bass', optionValue: structuredClone(bass) }))
+        // dispatch(addDevicesOption({ optionName: 'Flatness Index', optionValue: calculatedData.flatnessIndex }))
+    }, [])
+
     const categories = Object.keys(calculatedData[0]);
     const categoriesHeader = categories.map(cat => cat === 'freq' ? '1/3 octave [Hz]' : `${cat} [dB]`);
     
@@ -36,7 +49,6 @@ console.log(calculatedData);
                 handleEditCellSubmit={e => {}} 
             />
             <GraphSPL 
-                name={deviceName} 
                 rawData={rawData} 
                 graphData={graphData} 
                 THDData={THDData}
