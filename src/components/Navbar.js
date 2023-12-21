@@ -14,9 +14,6 @@ function Navbar() {
                     <Link to='/info' className='element-underline'>Info</Link>
                 </li>
                 <li className='nav-feedbacks'>
-                    <Link to='/indexes' className='element-underline'>Indexes</Link>
-                </li>
-                <li className='nav-feedbacks'>
                     <Link to='/compare' className='element-underline'>Compare</Link>
                 </li>
                 <li className='nav-login'>

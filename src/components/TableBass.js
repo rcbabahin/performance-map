@@ -3,7 +3,7 @@ import { calculateBassSPL } from "../utils/calculations.js";
 import GraphBass from "./GraphBass.js";
 
 function TableBass({ data }) {
-    const bass = calculateBassSPL(data);
+    const { bass } = data;
         
     const bassGraphData = [
         {Hz: bass['-10dB'].freq, SPL: bass['-10dB'].SPL.toFixed(2)},

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getDevices, setCurrentDeviceId, setFilter } from "../../reducers/devices.js";
 import CalculationsTable from "./CalculationsTable.js";
@@ -12,7 +12,7 @@ const categoriesObj = {
 	'Extra Large': 'xl'
 }
 
-function Calculations(props) {
+function Calculations() {
 
 	const dispatch = useDispatch();
 

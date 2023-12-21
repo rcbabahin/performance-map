@@ -874,7 +874,7 @@ span.table-name {
 	.calculations-container-aside {
 		align-self: start;
 		position: sticky;
-		top: 0px;
+		top: 50px;
 
 		.calculations-companies {
 			border: 2px solid black;
@@ -982,7 +982,132 @@ span.table-name {
 	}
 }
 
+.compare-container {
+	max-width: 1450px;
+	margin: 30px auto;
 
+	display: grid;
+	grid-template-columns: 380px 1fr;
+	grid-template-rows: auto;
+	gap: 20px;
+
+	.compare-container-aside {
+		align-self: start;
+		position: sticky;
+		top: 50px;
+
+		.compare-ratings {
+			margin-bottom: 30px;
+			border: 2px solid black;
+			border-radius: 10px;
+			box-shadow: 5px 10px 15px 0px rgba(0,0,0,0.1);
+			padding: 20px 20px;
+			display: flex;
+			flex-wrap: wrap;
+			row-gap: 10px;
+			
+			.compare-ratings-item {
+				padding: 10px 10px;
+				margin-right: 10px;
+				background-color: #e1e4ef;
+				color:#751692;
+				border-radius: 10px;
+				cursor: pointer;
+	
+				&:hover {
+					background-color: black;
+					color: white;
+				}
+			}
+	
+			.active {
+				background-color: black;
+				color: white;
+			}
+		}
+
+		.compare-companies {
+			margin-bottom: 30px;
+			border: 2px solid black;
+			border-radius: 10px;
+			box-shadow: 5px 10px 15px 0px rgba(0,0,0,0.1);
+			padding: 20px 20px;
+			display: flex;
+			flex-wrap: wrap;
+			row-gap: 10px;
+			
+			.compare-companies-item {
+				padding: 10px 10px;
+				margin-right: 10px;
+				background-color: #e1e4ef;
+				color:#751692;
+				border-radius: 10px;
+				cursor: pointer;
+	
+				&:hover {
+					background-color: black;
+					color: white;
+				}
+			}
+	
+			.active {
+				background-color: black;
+				color: white;
+			}
+		}
+	
+		.compare-categories {
+			margin-bottom: 30px;
+			height: 130px;
+
+			border: 2px solid black;
+			border-radius: 10px;
+			box-shadow: 5px 10px 15px 0px rgba(0,0,0,0.1);
+			padding: 20px 20px;
+			display: flex;
+			flex-wrap: wrap;
+			row-gap: 10px;
+			
+			.compare-categories-item {
+				padding: 10px 10px;
+				margin-right: 10px;
+				background-color: #e1e4ef;
+				color:#751692;
+				border-radius: 10px;
+				cursor: pointer;
+	
+				&:hover {
+					background-color: black;
+					color: white;
+				}
+			}
+	
+			.active {
+				background-color: black;
+				color: white;
+			}
+		}
+	}
+
+	.compare-graphs-container {
+	
+		.graph-ratings {
+			grid-column: 2/3;
+			// height: 1000px;
+			// border: 2px dashed orange;
+		}
+	}
+}
+
+.graph-ratings {
+	padding-top: 20px;
+	header {
+		display: flex;
+		justify-content: center;
+		font-size: 1.5em;
+		font-weight: 600;
+	}
+}
 
 
 @-webkit-keyframes appeare {

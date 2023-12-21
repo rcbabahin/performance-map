@@ -1,98 +1,145 @@
-import { useSelector } from "react-redux";
+
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+
+import { getMeasurements } from "../../reducers/measurements.js";
+import { getDevices } from "../../reducers/devices.js";
+import GraphRatings from "./GraphRatings.js";
+import { calculateRatings, setFilter } from "../../reducers/ratings.js";
+
+const categoriesObj = {
+	'All': 'All',
+	'Mini': 'xs',
+	'Small': 's',
+	'Medium': 'm',
+	'Large': 'l',
+	'Extra Large': 'xl'
+}
+
+const ratingsNames = ['SPL', 'Bass Performance', 'SPL Performance', 'Bass / SPL', 'Flatness Index', 'Preference Index']
 
 function Compare() {
+
+    const dispatch = useDispatch();
+
     const devices = useSelector(state => state.devices.devices);
-    const measurements = useSelector(state => state.measurements.measurements)
-    const groupedBySize = {
-        'xs': {
-            items: []
-        },
-        's': {
-            items: []
-        },
-        'm': {
-            items: []
-        },
-        'l': {
-            items: []
-        },
-        'xl': {
-            items: []
-        },        
-    }
+    const devicesStatus = useSelector(state => state.devices.status);
+    
+    const measurements = useSelector(state => state.measurements.measurements);
+    const measurementsStatus = useSelector(state => state.measurements.status);
 
-    const updatedDevices = devices.map(device => {
-       const temp = measurements.find(meas => meas.id === device.id);
+    const companies = useSelector(state => state.devices.companies);
+	const categories = Object.keys(categoriesObj);
 
-       return { ...device, bass: temp.bass, flatnessIndex: temp.flatnessIndex }
-    })
+    const ratings = useSelector(state => state.ratings.ratings);
+    const filter = useSelector(state => state.ratings.filter);
+    const ratingsStatus = useSelector(state => state.ratings.status);
 
-    updatedDevices.map(device => {
-        groupedBySize[device.category].items.push(structuredClone(device))
-    })
-
-    for (let key in groupedBySize) {
-        let averageSPL = 0;
-        let averageSize = 0;
-        let averageBass = 0;
-
-        groupedBySize[key].items.map(device => {
-            averageSPL += device.bass['Bandwidth SPL']
-            averageSize += device.size;
-            averageBass += device.bass['-10dB'].SPL
-        })
-
-        averageSPL = groupedBySize[key].items.length ? (averageSPL / groupedBySize[key].items.length) : 0;
-
-        const dBPercentage = [];
-        const sizePercentage = [];
-        const bassPercentage = [];
-
-        groupedBySize[key].items.map(device => {
-            dBPercentage.push((Math.pow(10, ((device.bass['Bandwidth SPL'] - averageSPL) / 20))) * 100)
-            sizePercentage.push((100 * device.size) / averageSize);
-            bassPercentage.push((100 * device.bass['-10dB'].SPL) / averageBass);
-        })
-
-        const ratingsMultipliers = {
-            spl: 4.4,
-            point: 6,
-            size: 3.6,
-            flatness: 6,
-            generalMult: 12.68
+    useEffect(() => {
+        if (devicesStatus === 'idle') {
+            dispatch(getDevices());
         }
 
-        groupedBySize[key].items.map((device, i) => {
-            device['SPL Performance'] = dBPercentage[i] / sizePercentage[i];
-            device['Bass Performance'] = bassPercentage[i] / sizePercentage[i];
-            device['Bass / SPL'] = device.bass['0dB'].SPL / device.bass['-10dB'].freq;
+        if (measurementsStatus === 'idle') {
+            dispatch(getMeasurements());
+        }
 
-            const part1 = ratingsMultipliers.generalMult;
-            console.log('part1',part1)
-            const part2 = ((1 / device.bass['0dB'].SPL) * 100) * ratingsMultipliers.spl;
-            console.log('part2',part2)
-            const part3 = ((1 / device.bass['-10dB'].freq) * 100) * ratingsMultipliers.point;
-            console.log('part3',part3)
-            const part4 = Math.log10(device.size * 10) * ratingsMultipliers.size;
-            console.log('part4',part4)
-            const part5 = (1 / device.flatnessIndex) * ratingsMultipliers.flatness;
-            console.log('part5',part5)
-            device['Preference Index'] = (part1 - part2 + part3 - part4 + part5) / 2;
-        })
+    }, [ratingsStatus, dispatch])
 
-        groupedBySize[key].averageSPL = averageSPL;
+    if (devicesStatus === 'loading' || measurementsStatus === 'loading') {
+        return <div className='loading'/>
+    } else if (devicesStatus === 'failed' || measurementsStatus === 'failed') {
+        return<div>Somthing went wrong</div>
+    }
 
-
+    if (devicesStatus === 'succeded' && measurementsStatus === 'succeded' && ratingsStatus === 'idle') {
+        
+            // dispatch(calculateRatings({ devices, measurements }));
         
     }
 
+    const handleClick = (type) => (e) => {
+        console.log('here')
+		const innerText = e.target.innerText;
+		let newFilter = {};
+
+		if (type === 'ratings') {
+			newFilter = {
+                rating: innerText,
+				company: filter.company,
+				category: filter.category,
+			}
+		} else if (type === 'company') {
+			newFilter = {
+                rating: filter.rating,
+				company: innerText,
+				category: filter.category,
+			}
+		} else if (type === 'category') {
+			newFilter = {
+                rating: filter.rating,
+				company: filter.company,
+				category: innerText,
+			}
+		}
+
+		dispatch(setFilter({
+			...newFilter
+		}))
+	}
     
-
-
-    console.log(groupedBySize)
     return (
-        <div>
-
+        <div className="compare-container">
+            <div className="compare-container-aside">
+                <aside className="compare-ratings">
+                    {
+                        ratingsNames.map( rating => 
+                            <div 
+                                key={rating} 
+                                className={`compare-ratings-item ${filter.rating === rating ? 'active' : ''}`} 
+                                onClick={handleClick('ratings')}
+                            >
+                                {rating}
+                            </div>
+                        )
+                    }
+                </aside>
+                <aside className='compare-companies'>
+                    {
+                        companies.map( company => 
+                            <div 
+                                key={company} 
+                                className={`compare-companies-item ${filter.company === company ? 'active' : ''}`} 
+                                onClick={handleClick('company')}
+                            >
+                                {company}
+                            </div>
+                        )
+                    }
+                </aside>
+                <aside className='compare-categories'>
+                    {
+                        categories.map( category => 
+                            <div 
+                                key={category} 
+                                className={`compare-categories-item ${filter.category === category ? 'active' : ''}`} 
+                                onClick={handleClick('category')}
+                            >
+                                {category}
+                            </div>
+                        )
+                    }
+                </aside>
+            </div>
+            <div className="compare-graphs-container">
+                { ratingsStatus === 'succeded' &&
+                    ratings[filter.rating].map( (data, i) => 
+                        <div key={i}>
+                            <GraphRatings data={data} />
+                        </div>
+                    )
+                }
+            </div>
         </div>
     );
 }

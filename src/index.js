@@ -12,6 +12,11 @@ import PanelForm from './components/PanelForm/PanelForm.js';
 import store from './store.js';
 import Calculations from './components/Calculations/Calculations.js';
 import Compare from './components/Compare/Compare.js';
+import { getDevices } from './reducers/devices.js';
+import { getMeasurements } from './reducers/measurements.js';
+
+// store.dispatch(getDevices());
+// store.dispatch(getMeasurements());
 
 const router = createBrowserRouter([  
     {
@@ -33,10 +38,6 @@ const router = createBrowserRouter([
             {
                 path: 'compare',
                 element: <Compare />
-            },
-            {
-                path: 'indexes',
-                element: <div>Nothings here</div>
             },
             {
                 path: 'info',

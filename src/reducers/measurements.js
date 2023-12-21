@@ -3,6 +3,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { createSlice } from '@reduxjs/toolkit';
 import { httpGetMeasurements } from '../utils/utils.js';
 import { calculateBassSPL, calculateWeightedSPLAndTHD } from '../utils/calculations.js';
+import { calculateRatings } from './ratings.js';
 
 const initialState = {
     measurements: [],
@@ -14,7 +15,9 @@ const measurementsSlice = createSlice({
     name: 'measurements',
     initialState,
     reducers: {
-
+        setFilter(state) {
+            console.log('set filter');
+        }
     },
     extraReducers: (builder) => {
        
@@ -27,17 +30,18 @@ const measurementsSlice = createSlice({
 
                 const measurements = action.payload.map(meas => {
                     const bass = calculateBassSPL(meas.items);
-                    const averageSPL = bass['0dB'].SPL;
                     const cornerFreq = bass['-10dB'].freq;
                 
                     const calculatedData = calculateWeightedSPLAndTHD(meas.items, cornerFreq);    
                     
-                    return { ...meas, bass, flatnessIndex: calculatedData.flatnessIndex}
+                    return { ...meas, bass, 'Flatness Index': calculatedData.flatnessIndex, weights: calculatedData }
                 })
-                state.measurements = measurements;
+                console.log('loaded in measurements')
+                state.measurements = state.measurements.concat(measurements);
             })
             .addCase(getMeasurements.rejected, (state, action) => {
                 state.status = 'failed'
+
                 state.error = action.error.message
             })
     },
@@ -45,9 +49,14 @@ const measurementsSlice = createSlice({
 
 export const getMeasurements = createAsyncThunk(
     'measurements/getMeasurements', 
-    async () => {
-    return await httpGetMeasurements()
+    async (arg, thunkAPI) => {
+    const result = await httpGetMeasurements()
+    // console.log(thunkAPI)
+    thunkAPI.dispatch(setFilter());
+    return result;
 })
+
+export const { setFilter } = measurementsSlice.actions;
 
 export default measurementsSlice.reducer;
 

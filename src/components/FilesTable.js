@@ -1,7 +1,7 @@
 import TableBass from './TableBass.js';
 import TableSPL from './TableSPL.js';
 
-function FilesTable({ file, name }) {
+function FilesTable({ file }) {
     return (
         <div>
             <TableBass data={file} />

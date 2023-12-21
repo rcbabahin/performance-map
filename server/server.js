@@ -69,21 +69,58 @@ app.get('/measurements', (req, res) => {
     db.select('*').from('devices')
         .then(async devices => {
             const retval = [];
-            // add try catch
-            await Promise.all(devices.map(async (device, i) => {
-                const meas =  await db.select('*').from('measurments').where('device_id', '=', device.id);
-                
-                retval.push({ id: device.id, items: [] })
+            // console.log('all devices log', devices, devices.length);
+            try {
+                for(let i = 0; i < devices.length; i++) {
+                    try {
+                        const meas =  await db.select('*').from('measurments').where('device_id', '=', devices[i].id);
+                    
+                        retval.push({ id: devices[i].id, items: [] })
+        
+                        meas.forEach(element => {
+                            delete element.device_id;
+                            retval[i].items.push(element);
+                        });
+                    }
+                    catch(e) {
+                        // throw new Error(e); 
+                        console.log(retval);
+                        console.error(e);
+                        res.status(400).json('Error getting measurements')
+                    }
+                }
 
-                meas.forEach(element => {
-                    delete element.device_id;
-                    retval[i].items.push(element);
-                });
-            }));
-            
-            res.json(retval);
+                // await Promise.all(devices.map(async (device, i) => {
+                //     // console.log('device', device);
+                //     // console.log('i', i);
+                //     try {
+                //         const meas =  await db.select('*').from('measurments').where('device_id', '=', device.id);
+                    
+                //         retval.push({ id: device.id, items: [] })
+        
+                //         meas.forEach(element => {
+                //             delete element.device_id;
+                //             retval[i].items.push(element);
+                //         });
+                //     }
+                //     catch(e) {
+                //         // throw new Error(e); 
+                //         console.log(retval);
+                //         console.error(e);
+                //         // res.status(400).json('Error getting measurements')
+                //     }
+                    
+                // }));
+                
+                res.json(retval);
+            }
+            catch (e) {
+                console.error(e);
+                res.status(400).json('Error getting measurements')
+            }
+
         })
-        .catch(err => res.status(400).json('Error getting devices'))
+        .catch(err => res.status(400).json('Error getting devices for measurements'))
 })
 
 // app.get('/measurements', (req, res) => {
