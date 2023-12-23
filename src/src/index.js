@@ -6,9 +6,8 @@ import { Provider } from 'react-redux';
 
 import './styles/index.scss';
 import App from './App.js';
-import Info from './components/Info/Info.js';
-import ErrorPage from "./components/Error/ErrorPage.js";
-import Home from './components/Home/Home.js';
+import ErrorPage from "./components/ErrorPage.js";
+import Home from './components/Home.js';
 import PanelForm from './components/PanelForm/PanelForm.js';
 import store from './store.js';
 import Calculations from './components/Calculations/Calculations.js';
@@ -16,8 +15,8 @@ import Compare from './components/Compare/Compare.js';
 import { getDevices } from './reducers/devices.js';
 import { getMeasurements } from './reducers/measurements.js';
 
-store.dispatch(getDevices());
-store.dispatch(getMeasurements());
+// store.dispatch(getDevices());
+// store.dispatch(getMeasurements());
 
 const router = createBrowserRouter([  
     {
@@ -42,7 +41,7 @@ const router = createBrowserRouter([
             },
             {
                 path: 'info',
-                element: <Info />
+                element: <div>Nothings here</div>
             },
         ],
         errorElement: <ErrorPage />,
@@ -62,4 +61,7 @@ root.render(
   </React.StrictMode>
 );
 
+// If you want to start measuring performance in your app, pass a function
+// to log results (for example: reportWebVitals(console.log))
+// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();

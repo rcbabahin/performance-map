@@ -2,7 +2,8 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getMeasurements } from "../../reducers/measurements.js";
 
-import FilesTable from "./FilesTable.js";
+import FilesTable from "../FilesTable.js";
+
 
 function CalculationsTable() {
     

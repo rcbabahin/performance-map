@@ -1,6 +1,6 @@
-import FilesList from './FilesList.js';
+import FilesList from '../FilesList.js';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAdd, faCancel, faFileCsv, faThumbsUp, faThumbsDown } from '@fortawesome/free-solid-svg-icons';
+import { faAdd, faClose, faCancel, faFileCsv, faThumbsUp, faThumbsDown } from '@fortawesome/free-solid-svg-icons';
 
 const iconStylePaddingRight = {
     paddingRight: '10px'

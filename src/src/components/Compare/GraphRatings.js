@@ -5,7 +5,9 @@ function GraphRatings({ data }) {
 
     if (!items.length) return;
 
-    const yMaxValue = Math.ceil(average * 1.2);
+    const keyName = Object.keys(items[0])[1];
+    const maxValue = Math.max(...items.map(item => item[keyName]));
+    const yMaxValue = Math.ceil(maxValue * 1.2);
 
     return (    
         <div className="graph-ratings">
@@ -14,33 +16,24 @@ function GraphRatings({ data }) {
                 data={items}
                 width={900} height={450} margin={{ bottom: 30 }} 
                 style={{width: '950px', margin: '30px auto'}}>
-                <Bar dataKey={`${Object.keys(items[0])[1]}`} fill="#82ca9d" activeBar={<Rectangle fill="gold" stroke="blue" />} />
+                <Bar dataKey={keyName} fill="#82ca9d" activeBar={{ stroke: 'black', strokeWidth: 2 }} barSize={25} />
                 <ReferenceLine 
                     y={average} 
-                    label={{position: {x: 60, y: -10}, value: average.toFixed(2) , fill: 'black'}} 
-                    stroke="green" 
+                    label={{position: {x: 60, y: -10}, value: Number(average.toFixed(2)) , fill: 'black'}} 
+                    stroke="#6495ed" 
                     strokeWidth={10}
                     opacity={0.5}
                 />
                 <CartesianGrid stroke="#ccc" strokeDasharray="5 5"  />
-                <XAxis 
-
-                    dataKey="name"
-                    // ticks={logAxis} 
-                    // interval={0} 
-                    // type="number" 
-                    // domain={[10,20000]} 
-                    // dataKey="freq" 
-                    // scale="log" 
-                    // tickSize='12' 
-                    // angle='45' 
-                    // label={{ position: 'insideTop', value: 'Frequency, Hz', fill: 'black', offset: 40 }}
-                    />
+                
+                <XAxis dataKey="name" />
                 <YAxis 
                     domain={[0, yMaxValue]} 
                     // label={{ angle: -90, position: 'insideLeft', value: 'SPL, dB', fill: 'black', offset: 10 }}
                     />
-                <Tooltip />
+                <Tooltip 
+                    cursor={{ fill: 'rgba(206, 206, 206, 0.2)', width: 0}}
+                />
                 <Legend />
             </BarChart>
         </div>

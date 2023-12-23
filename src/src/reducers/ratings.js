@@ -28,10 +28,9 @@ const ratingsSlice = createSlice({
             // }
         },
         calculateRatings(state, action) {
-            // const { devices, measurements } = action.payload;
-            console.log('devices', state.devices.devices)
-            console.log('measurements   ', state.measurements.measurements)
-            const grouped = calculateGroupedBySize(state.devices.devices, state.measurements.measurements);
+            const { devices, measurements } = action.payload;
+
+            const grouped = calculateGroupedBySize(devices, measurements);
 
             state.ratings['SPL'] = selectDataFromArray(grouped)('SPL');
             state.ratings['Bass Performance'] = selectDataFromArray(grouped)('Bass Performance');

@@ -46,7 +46,9 @@ function PanelForm(props) {
             category: category[select.current.value],
             measurements
         };
-        
+
+        // console.log(measurements);
+
         dispatch(registerDevice(device));
         setFile({
             ...file,

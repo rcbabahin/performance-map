@@ -4,7 +4,7 @@ import { useEffect } from "react";
 
 import { getMeasurements, setFilter } from "../../reducers/measurements.js";
 import { getDevices } from "../../reducers/devices.js";
-import GraphRatings from "../Graphs/GraphRatings.js";
+import GraphRatings from "./GraphRatings.js";
 
 const categoriesObj = {
 	'All': 'All',
