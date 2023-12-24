@@ -29,7 +29,7 @@ function CalculationsTable() {
         const device = devices.find(({ id }) => id === deviceId);
 
         if (typeof meas === 'undefined' || typeof device === 'undefined') {
-            content = <div style={{ margin : '30px 100px', color: 'red'}}>No devices found</div>
+            content = <div className="something-went-wrong">No Devices for this filter 😓</div>
         } else {
             content = <FilesTable  file={meas} />
         }

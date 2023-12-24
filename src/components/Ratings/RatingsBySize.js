@@ -1,10 +1,10 @@
-
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 
 import { getMeasurements, setFilter } from "../../reducers/measurements.js";
 import { getDevices } from "../../reducers/devices.js";
 import GraphRatings from "../Graphs/GraphRatings.js";
+import FilterBox from "../FilterBox/FilterBox.js";
 
 const categoriesObj = {
 	'All': 'All',
@@ -17,7 +17,7 @@ const categoriesObj = {
 
 const ratingsNames = ['SPL', 'Bass Performance', 'SPL Performance', 'Bass / SPL', 'Flatness Index', 'Preference Index']
 
-function Compare() {
+function RatingsBySize() {
 
     const dispatch = useDispatch();
 
@@ -113,45 +113,25 @@ function Compare() {
     return (
         <div className="compare-container">
             <div className="compare-container-aside">
-                <aside className="compare-ratings">
-                    {
-                        ratingsNames.map( rating => 
-                            <div 
-                                key={rating} 
-                                className={`compare-ratings-item ${filter.rating === rating ? 'active' : ''}`} 
-                                onClick={handleClick('ratings')}
-                            >
-                                {rating}
-                            </div>
-                        )
-                    }
-                </aside>
-                <aside className='compare-companies'>
-                    {
-                        companies.map( company => 
-                            <div 
-                                key={company} 
-                                className={`compare-companies-item ${filter.company === company ? 'active' : ''}`} 
-                                onClick={handleClick('company')}
-                            >
-                                {company}
-                            </div>
-                        )
-                    }
-                </aside>
-                <aside className='compare-categories'>
-                    {
-                        categories.map( category => 
-                            <div 
-                                key={category} 
-                                className={`compare-categories-item ${filter.category === category ? 'active' : ''}`} 
-                                onClick={handleClick('category')}
-                            >
-                                {category}
-                            </div>
-                        )
-                    }
-                </aside>
+                <FilterBox 
+                    data={ratingsNames}
+                    filter={filter.rating}
+                    handleClick={handleClick('ratings')}
+                    className="compare-ratings"
+                />
+                <FilterBox 
+                    data={companies}
+                    filter={filter.company}
+                    handleClick={handleClick('company')}
+                    className="compare-companies"
+                />
+                <FilterBox 
+                    data={categories}
+                    filter={filter.category}
+                    type="category"
+                    handleClick={handleClick('category')}
+                    className="compare-categories"
+                />
             </div>
             <div className="compare-graphs-container">
                 { 
@@ -162,4 +142,4 @@ function Compare() {
     );
 }
 
-export default Compare;
+export default RatingsBySize;

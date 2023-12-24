@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getDevices, setCurrentDeviceId, setFilter } from "../../reducers/devices.js";
 import CalculationsTable from "./CalculationsTable.js";
+import FilterBox from "../FilterBox/FilterBox.js";
 
 const categoriesObj = {
 	'All': 'All',
@@ -61,32 +62,18 @@ function Calculations() {
     return (
 		<div className='calculations-container'>
 			<div className="calculations-container-aside">
-				<aside className='calculations-companies'>
-					{
-						companies.map( company => 
-							<div 
-								key={company} 
-								className={`calculations-companies-item ${company === filter.company ? 'active': ''}`} 
-								onClick={handleClick('company')}
-							>
-								{company}
-							</div>
-						)
-					}
-				</aside>
-				<aside className='calculations-categories'>
-					{
-						categories.map( category => 
-							<div 
-								key={category} 
-								className={`calculations-categories-item ${category === filter.category ? 'active': ''}`} 
-								onClick={handleClick('category')}
-							>
-								{category}
-							</div>
-						)
-					}
-				</aside>
+				<FilterBox 
+					data={companies}
+					filter={filter.company}
+					handleClick={handleClick('company')}
+					className="calculations-companies"
+				/>
+				<FilterBox 
+					data={categories}
+					filter={filter.category}
+					handleClick={handleClick('category')}
+					className="calculations-categories"
+				/>
 				<div className='calculations-devices-names'>
 					{	currentDeviceId !== 0 &&
 						filter.devices.map( ({ id, name }) => 

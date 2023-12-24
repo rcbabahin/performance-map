@@ -14,7 +14,7 @@ function GraphSPL({ graphData, rawData, THDData, averageSPL }) {
     }
 
     const handleRefLine = (e) => {
-        if(refLine.value == 6) {
+        if(refLine.value === 6) {
             setRefLine({
                 value: 3,
                 text: 'No',
@@ -22,7 +22,7 @@ function GraphSPL({ graphData, rawData, THDData, averageSPL }) {
             });
         }
         
-        if(refLine.value == 3) {
+        if(refLine.value === 3) {
             setRefLine({
                 value: 0,
                 text: '±6dB',
@@ -30,7 +30,7 @@ function GraphSPL({ graphData, rawData, THDData, averageSPL }) {
             });
         }
 
-        if(refLine.value == 0) {
+        if(refLine.value === 0) {
             setRefLine({
                 value: 6,
                 text: '±3dB',

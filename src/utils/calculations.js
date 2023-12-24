@@ -280,6 +280,101 @@ export const selectDataFromArray = (groupedArr) => (type) => {
     return data;
 }
 
+export const calculateAllDevicesRatings = (devices, measurements) => {
+    const allDevices = {
+        items: [],
+        average: {}
+    }
+
+    allDevices.items = devices.map(device => {
+        const temp = measurements.find(meas => meas.id === device.id);
+ 
+        return { ...device, bass: temp.bass, 'Flatness Index': Number(temp['Flatness Index']).toFixed(2) }
+     })
+
+     let averageSPL = 0;
+     let averageSize = 0;
+     let averageBass = 0;
+
+     const itemsLength = allDevices.items.length;
+
+        // if (itemsLength) {
+            allDevices.items.map(device => {
+                averageSPL += device.bass['Bandwidth SPL']
+                averageSize += device.size;
+                averageBass += device.bass['-10dB'].SPL
+            })
+
+            averageSPL = averageSPL / itemsLength;
+            averageSize = averageSize / itemsLength;
+            averageBass = averageBass / itemsLength;
+        // } 
+
+        const dBPercentage = [];
+        const sizePercentage = [];
+        const bassPercentage = [];
+
+        allDevices.items.map(device => {
+            dBPercentage.push((Math.pow(10, ((device.bass['Bandwidth SPL'] - averageSPL) / 20))) * 100)
+            sizePercentage.push((100 * device.size) / averageSize);
+            bassPercentage.push((100 * device.bass['-10dB'].SPL) / averageBass);
+        })
+
+        const ratingsMultipliers = {
+            spl: 4.4,
+            point: 6,
+            size: 3.6,
+            flatness: 6,
+            generalMult: 12.68
+        }
+
+        allDevices.items.map((device, i) => {
+            device['SPL Performance'] = (dBPercentage[i] / sizePercentage[i]).toFixed(2);
+            device['Bass Performance'] = (bassPercentage[i] / sizePercentage[i]).toFixed(2);
+            device['Bass / SPL'] = (device.bass['0dB'].SPL / device.bass['-10dB'].freq).toFixed(2);
+
+            const part1 = ratingsMultipliers.generalMult;
+            const part2 = ((1 / device.bass['0dB'].SPL) * 100) * ratingsMultipliers.spl;
+            const part3 = ((1 / device.bass['-10dB'].freq) * 100) * ratingsMultipliers.point;
+            const part4 = Math.log10(device.size * 10) * ratingsMultipliers.size;
+            const part5 = (1 / device['Flatness Index']) * ratingsMultipliers.flatness;
+            device['Preference Index'] = ((part1 - part2 + part3 - part4 + part5) / 2).toFixed(2);
+        })
+
+        let averageSplPerformance = 0;
+        let averageBassPerformance = 0;
+        let averageBassDivSPL = 0;
+        let averageFlatnessIndex = 0;
+        let averagePreferenceIndex = 0;
+
+        if (itemsLength) {
+            allDevices.items.map((device) => {
+                averageSplPerformance += Number(device['SPL Performance']);
+                averageBassPerformance += Number(device['Bass Performance']);
+                averageBassDivSPL += Number(device['Bass / SPL']);
+                averageFlatnessIndex += Number(device['Flatness Index']);
+                averagePreferenceIndex += Number(device['Preference Index']);
+            })
+
+            averageSplPerformance = averageSplPerformance / itemsLength;
+            averageBassPerformance = averageBassPerformance / itemsLength;
+            averageBassDivSPL = averageBassDivSPL / itemsLength;
+            averageFlatnessIndex = averageFlatnessIndex / itemsLength;
+            averagePreferenceIndex = averagePreferenceIndex / itemsLength;
+        } 
+
+        allDevices.average = {
+            'SPL': averageSPL,
+            'SPL Performance': averageSplPerformance,
+            'Bass Performance': averageBassPerformance,
+            'Bass / SPL': averageBassDivSPL,
+            'Flatness Index': averageFlatnessIndex,
+            'Preference Index': averagePreferenceIndex
+        };
+
+        return allDevices;
+}
+
 const oneThirdOctaveFreq = [
     20,
     25,

@@ -2,12 +2,13 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { createSlice } from '@reduxjs/toolkit';
 import { httpGetMeasurements } from '../utils/utils.js';
-import { calculateBassSPL, calculateWeightedSPLAndTHD } from '../utils/calculations.js';
+import { calculateAllDevicesRatings, calculateBassSPL, calculateWeightedSPLAndTHD } from '../utils/calculations.js';
 import { calculateGroupedBySize, selectDataFromArray } from '../utils/calculations.js';
 
 const initialState = {
     measurements: [],
     ratings: {},
+    ratingsAllDevices: {},
     filter: {
         rating: 'SPL',
         company: 'All',
@@ -51,7 +52,7 @@ const measurementsSlice = createSlice({
                 })
 
                 state.measurements = state.measurements.concat(measurements);
-                
+                // console.log(measurements);
                 const grouped = calculateGroupedBySize(devices, measurements);
                 
                 state.ratings['SPL'] = selectDataFromArray(grouped)('SPL');
@@ -60,6 +61,18 @@ const measurementsSlice = createSlice({
                 state.ratings['Bass / SPL'] = selectDataFromArray(grouped)('Bass / SPL');
                 state.ratings['Flatness Index'] = selectDataFromArray(grouped)('Flatness Index');
                 state.ratings['Preference Index'] = selectDataFromArray(grouped)('Preference Index');
+                // console.log(calculateAllDevicesRatings(devices, measurements))
+                
+                const ratingsAllDevices = {'xs': calculateAllDevicesRatings(devices,measurements)}
+
+                state.ratingsAllDevices['SPL'] = selectDataFromArray(ratingsAllDevices)('SPL');
+                state.ratingsAllDevices['Bass Performance'] = selectDataFromArray(ratingsAllDevices)('Bass Performance');
+                state.ratingsAllDevices['SPL Performance'] = selectDataFromArray(ratingsAllDevices)('SPL Performance');
+                state.ratingsAllDevices['Bass / SPL'] = selectDataFromArray(ratingsAllDevices)('Bass / SPL');
+                state.ratingsAllDevices['Flatness Index'] = selectDataFromArray(ratingsAllDevices)('Flatness Index');
+                state.ratingsAllDevices['Preference Index'] = selectDataFromArray(ratingsAllDevices)('Preference Index');
+
+                // state.ratingsAllDevices = calculateAllDevicesRatings(devices, measurements);
             })
             .addCase(getMeasurements.rejected, (state, action) => {
                 state.status = 'failed'

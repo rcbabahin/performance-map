@@ -10,9 +10,11 @@ import Info from './components/Info/Info.js';
 import ErrorPage from "./components/Error/ErrorPage.js";
 import Home from './components/Home/Home.js';
 import PanelForm from './components/PanelForm/PanelForm.js';
-import store from './store.js';
 import Calculations from './components/Calculations/Calculations.js';
-import Compare from './components/Compare/Compare.js';
+import RatingsBySize from './components/Ratings/RatingsBySize.js';
+import RatingsAllDevices from './components/Ratings/RatingsAllDevices.js';
+
+import store from './store.js';
 import { getDevices } from './reducers/devices.js';
 import { getMeasurements } from './reducers/measurements.js';
 
@@ -37,8 +39,12 @@ const router = createBrowserRouter([
                 element: <Calculations />
             },
             {
-                path: 'compare',
-                element: <Compare />
+                path: 'ratings-all-devices',
+                element: <RatingsAllDevices />
+            },
+            {
+                path: 'ratings-by-size',
+                element: <RatingsBySize />
             },
             {
                 path: 'info',

@@ -16,8 +16,8 @@ const colors = {
     'Yandex': '#82ca9d'
 }
 
-function GraphRatings({ data }) {
-    const { average, items, header } = data;
+function GraphAllDevicesRatings({ data }) {
+    const { average, items } = data;
 
     if (!items.length) return;
 
@@ -29,12 +29,12 @@ function GraphRatings({ data }) {
     const yMaxValue = Math.ceil(maxValue * 1.2);
 
     return (    
-        <div className="graph-ratings">
-            <header>{header}</header>
+        <div className="all-devices-graph">
+            <header>{keyName}</header>
             <BarChart 
                 data={items}
-                width={900} height={450} margin={{ bottom: 30 }} 
-                style={{width: '950px', margin: '30px auto'}}>
+                width={1400} height={600} 
+            >
                 <Bar 
                     dataKey={keyName} 
                     fill="#82ca9d" 
@@ -56,7 +56,7 @@ function GraphRatings({ data }) {
                 />
                 <CartesianGrid stroke="#ccc" strokeDasharray="5 5"  />
                 <XAxis dataKey="name" 
-                    label={{ position: {x: 440, y: 50}, value: keyName, fill: 'black' }}
+                    label={{ position: {x: 700, y: 50}, value: keyName, fill: 'black' }}
                 />
                 <YAxis domain={[0, yMaxValue]} />
                 <Tooltip cursor={{ fill: 'rgba(206, 206, 206, 0.2)', width: 0}} />
@@ -65,4 +65,4 @@ function GraphRatings({ data }) {
     );
 }
 
-export default GraphRatings;
+export default GraphAllDevicesRatings;
