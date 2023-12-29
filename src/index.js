@@ -17,6 +17,7 @@ import RatingsAllDevices from './components/Ratings/RatingsAllDevices.js';
 import store from './store.js';
 import { getDevices } from './reducers/devices.js';
 import { getMeasurements } from './reducers/measurements.js';
+import Compare from './components/Compare/Compare.js';
 
 store.dispatch(getDevices());
 store.dispatch(getMeasurements());
@@ -49,6 +50,10 @@ const router = createBrowserRouter([
             {
                 path: 'info',
                 element: <Info />
+            },
+            {
+                path: 'compare',
+                element: <Compare />
             },
         ],
         errorElement: <ErrorPage />,

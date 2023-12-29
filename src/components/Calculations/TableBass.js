@@ -16,7 +16,7 @@ function TableBass({ data }) {
 
     return (
         <div>
-            <span className="table-name">Corner Frequncies</span>
+            <span className="table-name">Corner Frequencies</span>
             <div className="table-bass">
                 <div className="table-bass-header-item"></div>
                 { tableHeader.map((item) => 

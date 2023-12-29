@@ -7,10 +7,6 @@ import { useState } from 'react';
 function Navbar() {
     const [ showMenu, setShowMenu ] = useState(false);
 
-    const handleMouseEnter = (e) => {
-        setShowMenu(true);
-    }
-
     return (
         <nav className='flex-nav'>
             <ul >
@@ -21,6 +17,9 @@ function Navbar() {
                 </li>
                 <li className='nav-feedbacks'>
                     <Link to='/info' className='element-underline'>Info</Link>
+                </li>
+                <li className='compare'>
+                    <Link to='/compare' className='element-underline'>Compare</Link>
                 </li>
                 <li 
                     className='nav-feedbacks' 

@@ -74,8 +74,11 @@ const devicesSlice = createSlice({
                 state.filter.company = companies[0];
 
                 const filteredDevices = getFilteredDevices(action.payload, { company: companies[0], category: 'All' });
-                state.filter.devices = filteredDevices;
-                state.currentDeviceId = filteredDevices[0].id;
+
+                if (filteredDevices.length) {
+                    state.filter.devices = filteredDevices;
+                    state.currentDeviceId = filteredDevices[0].id;
+                }
             })
             .addCase(getDevices.rejected, (state, action) => {
                 state.status = 'failed'
