@@ -1,16 +1,16 @@
 import express from "express";
 import knex from "knex";
 import cors from "cors";
+import 'dotenv/config.js';
 
 import handleRegister from "./controllers/register.js";
-import { measurements } from "../src/utils/measurements.js";
 
 const db = knex({
     client: 'pg',
     connection: {
         host: '127.0.0.1',
         user: 'postgres',
-        password: '',
+        password: process.env.DB_PASS,
         database: 'audio_test'
     }
 });
@@ -23,12 +23,6 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(cors());
 
-const database = [
-    {id: 1 , name: 'Cucumber_vol30max_noEQ_smooth1per2222', company: 'Yandex', category: 's', size: 0.9},
-    {id: 2 , name: 'Chiron', company: 'Yandex', category: 'l', size: 0.25},
-    {id: 3 , name: 'Echo Dot', company: 'Amazon', category: 'xs', size: 0.3},
-]
-
 app.get('/', (req, res) => { res.send({ response: 'hello from server'}) });
 
 app.get('/devices', (req, res) => {
@@ -38,10 +32,6 @@ app.get('/devices', (req, res) => {
         })
         .catch(err => res.status(400).json('Error getting all devices'))
 })
-
-// app.get('/devices', (req, res) => {
-//     return res.json(database);
-// })
 
 app.get('/device/:id', (req, res) => {
     const { id } = req.params;
@@ -55,6 +45,28 @@ app.get('/device/:id', (req, res) => {
             }
         })
         .catch(err => res.status(400).json('Error getting device'))
+})
+
+app.delete('/device/:id', (req, res) => {
+    const { id } = req.params;
+    
+    db.transaction(trx => {
+        trx.del()
+        .from('measurments')
+        .where('device_id', '=', id)
+        .returning('device_id')
+        .then(data => {  
+            return trx
+                .del()
+                .from('devices')
+                .where('id', '=', data[0].device_id)
+                .returning('id')
+                .then(data => res.json(data[0].id))
+        })
+        .then(trx.commit)
+        .catch(trx.rollback)
+    })
+    .catch(err => res.status(400).json('Error deleting device'))
 })
 
 app.get('/measurements', (req, res) => {
@@ -76,8 +88,6 @@ app.get('/measurements', (req, res) => {
                         });
                     }
                     catch(e) {
-                        // throw new Error(e); 
-                        console.log(retval);
                         console.error(e);
                         res.status(400).json('Error getting measurements')
                     }
@@ -93,10 +103,6 @@ app.get('/measurements', (req, res) => {
         })
         .catch(err => res.status(400).json('Error getting devices for measurements'))
 })
-
-// app.get('/measurements', (req, res) => {
-//     res.json(measurements)
-// })
 
 app.post('/register', handleRegister(db));
 

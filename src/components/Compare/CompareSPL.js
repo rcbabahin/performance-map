@@ -81,7 +81,7 @@ function CompareSPL() {
     });
 
     return (
-        <div className="compare-spl-container">
+        <div>
             <FilterBox 
                 data={[
                     'Z-weightened',

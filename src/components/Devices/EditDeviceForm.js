@@ -1,14 +1,14 @@
-import { useState, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
-import PanelFormInput from "./PanelFormInput.js";
-import PanelFormSelect from "./PanelFormSelect.js";
-import PanelFormUpload from "./PanelFormUpload.js";
+import { useState, useRef, useEffect } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import PanelFormInput from "../PanelForm/PanelFormInput.js";
+import PanelFormSelect from "../PanelForm/PanelFormSelect.js";
+import PanelFormUpload from "../PanelForm/PanelFormUpload.js";
 import { csvToJson } from '../../utils/utils.js';
 import { useSelector, useDispatch } from 'react-redux';
 import { registerDevice } from '../../reducers/devices.js';
 import ModalNewDevice from '../Modal/ModalNewDevice.js';
 
-function PanelForm(props) {
+function EditDeviceForm() {
     const [file, setFile] = useState({
 		measurements: [],
         name: '',
@@ -17,8 +17,12 @@ function PanelForm(props) {
         showModal: false
 	});
 
-    const status = useSelector(state => state.devices.status)
-    let navigate = useNavigate();
+    const status = useSelector(state => state.devices.status);
+
+    const navigate = useNavigate();
+    const location = useLocation();
+    const { device } = location.state;
+
     const dispatch = useDispatch();
 
     const inputName = useRef(null);
@@ -26,7 +30,12 @@ function PanelForm(props) {
     const inputSize = useRef(null);
     const select = useRef(null);
 
+    useEffect(() => {
+
+    }, []);
+
     const handleSubmit = (e) => {
+
         e.preventDefault();
 
         const { measurements } = file;
@@ -47,7 +56,8 @@ function PanelForm(props) {
             measurements
         };
         
-        dispatch(registerDevice(device));
+        // dispatch(updateDevice(device));
+
         setFile({
             ...file,
             showModal: true
@@ -55,13 +65,16 @@ function PanelForm(props) {
     }
 
     const handleCancel = (e) => {
+        
         e.preventDefault();
         
         navigate('/devices')
     }
 
     const handleFileChange = (e) => {
+
         if (!e.target.files) return;
+
         const { files } = e.target;
         const { name } = files[0];
 
@@ -86,6 +99,7 @@ function PanelForm(props) {
     };
 
     const validate = (rawData) => {
+
         let isValid = true;
         const fileData = [];
 
@@ -114,6 +128,7 @@ function PanelForm(props) {
     }
 
     const handleModalClose = (e) => {
+
         e.preventDefault();
 
         setFile({
@@ -129,12 +144,12 @@ function PanelForm(props) {
         <div>
             { file.showModal && <ModalNewDevice handleModalClose={handleModalClose} />}
             <div className='panel-form'>
-                <h1>Add new device</h1>
+                <h1>Edit device</h1>
                 <form id='add-feedback-form' onSubmit={handleSubmit}>
-                    <PanelFormInput ref={inputName} text="Device's name" placeholder="Type device's name" />
-                    <PanelFormInput ref={inputCompany} text="Company's name" placeholder="Type company's name" />
-                    <PanelFormInput ref={inputSize} text="Device's Size" placeholder="Type devices's volume" />
-                    <PanelFormSelect ref={select} />
+                    <PanelFormInput ref={inputName} text="Device's name" defaultValue={device.name} />
+                    <PanelFormInput ref={inputCompany} text="Company's name" defaultValue={device.company} />
+                    <PanelFormInput ref={inputSize} text="Device's Size" defaultValue={device.size} />
+                    <PanelFormSelect ref={select} selected={device.category} />
                     <PanelFormUpload 
                         fileName={file.name}
                         showValidation={file.showValidation}
@@ -148,5 +163,4 @@ function PanelForm(props) {
   	);
 }
 
-export default PanelForm;
-
+export default EditDeviceForm;

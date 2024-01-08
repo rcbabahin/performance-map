@@ -1,6 +1,6 @@
 import { forwardRef } from "react";
 
-const PanelFormInput = forwardRef(({ text, placeholder }, ref) => {
+const PanelFormInput = forwardRef(({ text, placeholder, defaultValue }, ref) => {
     return (
         <div>
             <label htmlFor="feedback-name">{text}:</label><br/>
@@ -10,6 +10,7 @@ const PanelFormInput = forwardRef(({ text, placeholder }, ref) => {
                 type="text" 
                 id={`${text}-name`}
                 placeholder={placeholder}
+                defaultValue={defaultValue}
             />
         </div>
     )

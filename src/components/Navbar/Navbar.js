@@ -29,6 +29,9 @@ function Navbar() {
                 <li className='nav-feedbacks'>
                     <Link to='/info' className='element-underline'>Info</Link>
                 </li>
+                <li className='nav-signup'>
+                    <Link to='/devices' className='element-underline'>Devices</Link>
+                </li>
                 <li 
                     className='compare'
                     onMouseEnter={handleMenuShow('compare', true)} 
@@ -64,9 +67,6 @@ function Navbar() {
                 </li>
                 <li className='nav-login'>
                     <Link to='/calculations' className='element-underline'>Calculate</Link>
-                </li>
-                <li className='nav-signup'>
-                    <Link to='/add-new-device' className='element-underline'>Add New</Link>
                 </li>
             </ul>
         </nav>

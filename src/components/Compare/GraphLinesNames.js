@@ -3,7 +3,7 @@ import { getColor } from "../../utils/utils.js";
 function GraphLinesNames({ selectedDevices }) {
 
     return (
-        <div className="devices-graph-lines-names">
+        <div className="graph-lines-names">
             {
                 selectedDevices.map(device => {
                     const stroke = <svg>

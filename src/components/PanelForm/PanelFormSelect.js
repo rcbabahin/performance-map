@@ -1,6 +1,7 @@
 import { forwardRef } from "react";
 
-const PanelFormSelect = forwardRef((props, ref) => {
+const PanelFormSelect = forwardRef(({ selected }, ref) => {
+
     return (
         <div className='choose-type'>
             <label htmlFor="standard-select">Choose device's size caterogy:</label><br/>
@@ -9,11 +10,11 @@ const PanelFormSelect = forwardRef((props, ref) => {
                     id="standard-select" 
                     ref={ref} 
                 >
-                    <option value="Extra Small">Extra Small</option>
-                    <option value="Small">Small</option>
-                    <option value="Medium">Medium</option>
-                    <option value="Large">Large</option>
-                    <option value="Extra Large">Extra Large</option>
+                    <option value="Extra Small" selected={selected === 'xs'} >Extra Small</option>
+                    <option value="Small" selected={selected === 's'} >Small</option>
+                    <option value="Medium" selected={selected === 'm'} >Medium</option>
+                    <option value="Large" selected={selected === 'l'} >Large</option>
+                    <option value="Extra Large" selected={selected === 'xl'} >Extra Large</option>
                 </select>
                 <span className="focus"></span>
             </div>

@@ -5,7 +5,7 @@ import { getColor } from "../../utils/utils.js";
 function GraphTHDMulty({ data }) {
 
     return (
-        <div className="compare-graph-thd-multiple">
+        <div className="compare-graph-multiple">
             <ResponsiveContainer minHeight={600}>
                 <LineChart margin={{ bottom: 30, top: 30 }} >
                     {

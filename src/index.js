@@ -13,13 +13,15 @@ import PanelForm from './components/PanelForm/PanelForm.js';
 import Calculations from './components/Calculations/Calculations.js';
 import RatingsBySize from './components/Ratings/RatingsBySize.js';
 import RatingsAllDevices from './components/Ratings/RatingsAllDevices.js';
+import CompareBass from './components/Compare/CompareBass.js';
+import CompareSPL from './components/Compare/CompareSPL.js';
+import CompareTHD from './components/Compare/CompareTHD.js';
+import Devices from './components/Devices/Devices.js';
+import EditDeviceForm from './components/Devices/EditDeviceForm.js'
 
 import store from './store.js';
 import { getDevices } from './reducers/devices.js';
 import { getMeasurements } from './reducers/measurements.js';
-import CompareBass from './components/Compare/CompareBass.js';
-import CompareSPL from './components/Compare/CompareSPL.js';
-import CompareTHD from './components/Compare/CompareTHD.js';
 
 store.dispatch(getDevices());
 store.dispatch(getMeasurements());
@@ -65,6 +67,15 @@ const router = createBrowserRouter([
                 path: 'compare-thd',
                 element: <CompareTHD />
             },
+            {
+                path: 'devices',
+                element: <Devices />
+            },
+            {
+                path: 'edit-device',
+                element: <EditDeviceForm />
+            },
+            
         ],
         errorElement: <ErrorPage />,
     },

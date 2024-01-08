@@ -5,7 +5,7 @@ import { getColor } from "../../utils/utils.js";
 function GraphBassMulty({data}) {
 
     return (
-        <div className="compare-graph-bass-multiple">
+        <div className="compare-graph-multiple">
             <ResponsiveContainer minHeight={600}>
                 <LineChart margin={{ bottom: 30, top: 30 }} >
                     {

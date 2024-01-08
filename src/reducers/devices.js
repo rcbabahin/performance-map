@@ -1,7 +1,12 @@
 
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { createSlice } from '@reduxjs/toolkit';
-import { httpPostDevice, httpGetDevices, httpGetMeasurements } from '../utils/utils.js';
+import { 
+    httpPostDevice, 
+    httpGetDevices, 
+    httpPutDevice,
+    httpDeleteDevice
+} from '../utils/utils.js';
 
 const getFilteredDevices = (devices, filter) => {
     const categoriesObj = {
@@ -95,6 +100,31 @@ const devicesSlice = createSlice({
                 state.status = 'failed';
                 state.error = action.error.message
             })
+
+            .addCase(updateDevice.pending, (state, action) => {
+                state.status = 'loading';
+            }) 
+            .addCase(updateDevice.fulfilled, (state, action) => {
+                state.status = 'succeded';
+            })
+            .addCase(updateDevice.rejected, (state, action) => {
+                state.status = 'failed';
+                state.error = action.error.message
+            })
+
+            .addCase(deleteDevice.pending, (state, action) => {
+                state.status = 'loading';
+            }) 
+            .addCase(deleteDevice.fulfilled, (state, action) => {
+                const deviceId = action.payload;
+
+                
+                state.status = 'succeded';
+            })
+            .addCase(deleteDevice.rejected, (state, action) => {
+                state.status = 'failed';
+                state.error = action.error.message
+            })
     },
 })
 
@@ -107,10 +137,22 @@ export const registerDevice = createAsyncThunk(
     }
 )
 
+export const updateDevice = createAsyncThunk(
+    'devices/updateDevice', 
+    async (device) => {
+    return await httpPutDevice(device)
+})
+
 export const getDevices = createAsyncThunk(
     'devices/getDevices', 
     async () => {
     return await httpGetDevices()
+})
+
+export const deleteDevice = createAsyncThunk(
+    'devices/deleteDevice', 
+    async (id) => {
+    return await httpDeleteDevice(id)
 })
 
 export const { setFilter, setCurrentDeviceId, addDevicesOption } = devicesSlice.actions;

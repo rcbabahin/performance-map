@@ -74,7 +74,7 @@ function CompareTHD() {
     });
 
     return (
-        <div className="compare-thd-container" >
+        <div>
             <FilterBox 
                 data={companies}
                 filter={currentCompany}

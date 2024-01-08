@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
 
-function Modal({ handleModalClose }) {
+function ModalNewDevice({ handleModalClose }) {
     const status = useSelector(state => state.devices.status);
     const error = useSelector(state => state.devices.error);
     let text = '';
@@ -24,4 +24,4 @@ function Modal({ handleModalClose }) {
     )
 }
 
-export default Modal;
+export default ModalNewDevice;

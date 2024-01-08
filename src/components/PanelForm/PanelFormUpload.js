@@ -7,6 +7,7 @@ const iconStylePaddingRight = {
 }
 
 const PanelFormUpload = ({ handleCancel, handleFileChange, fileName, isValid, showValidation }) => {
+    
     const validationText = isValid ? 'valid. Now you can save it to Database' : 'not valid. Check file.';
     
     const iconStyleValidation = {

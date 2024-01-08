@@ -79,6 +79,45 @@ export const httpGetDevices = async () => {
     }
 }
 
+export const httpPutDevice = async (device) => {
+    try {
+        const response = await fetch(`${API_ROOT}/devices`);
+        
+        if (response.ok) {
+            return response.json();
+        } else {
+            throw new Error(await response.json());            
+        }
+    } catch (e) {
+        return new Promise((resolve, reject) => {
+            reject(e)
+        })
+    }
+}
+
+export const httpDeleteDevice = async (id) => {
+    try {
+        const response = await fetch(`${API_ROOT}/device/${id}`, {  
+            method: 'DELETE',
+            mode: 'cors',
+            headers: {
+                'Content-Type': 'application/json',
+                // 'x-access-token': auth.getBackendToken()
+            },
+        });
+        
+        if (response.ok) {
+            return response.json();
+        } else {
+            throw new Error(await response.json());            
+        }
+    } catch (e) {
+        return new Promise((resolve, reject) => {
+            reject(e)
+        })
+    }
+}
+
 export const httpGetMeasurements = async () => {
     try {
         const response = await fetch(`${API_ROOT}/measurements`);
@@ -94,6 +133,7 @@ export const httpGetMeasurements = async () => {
         })
     }
 }
+
 
 export const getColor = (name) => {
     let hashCode = 0;
