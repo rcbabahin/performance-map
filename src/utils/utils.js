@@ -94,3 +94,19 @@ export const httpGetMeasurements = async () => {
         })
     }
 }
+
+export const getColor = (name) => {
+    let hashCode = 0;
+
+    for (let i = 0; i < name.length; i++) {
+        hashCode = name.charCodeAt(i) + ((hashCode << 5) - hashCode);
+    }
+
+    let color = "#";
+    for (let i = 0; i < 3; i++) {
+        const value = (hashCode >> (i * 8)) & 0xff;
+        color += ("00" + value.toString(16)).slice(-2);
+    }
+
+    return color;
+}

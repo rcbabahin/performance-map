@@ -85,6 +85,7 @@ function RatingsAllDevices() {
     }
 
     const handleClick = (type) => (e) => {
+
 		const innerText = e.target.innerText;
 		let newFilter = {};
 
@@ -106,7 +107,7 @@ function RatingsAllDevices() {
 				company: filter.company,
 				category: innerText,
 			}
-		}
+		} 
 
 		dispatch(setFilter({
 			...newFilter
