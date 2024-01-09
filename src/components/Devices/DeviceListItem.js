@@ -2,11 +2,21 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPen, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { deleteDevice } from '../../reducers/devices.js';
+import { deleteDevice, setFilter } from '../../reducers/devices.js';
+import { deleteMeasurement } from '../../reducers/measurements.js';
 
 const categoriesObj = {
 	'All': 'All',
 	'xs': 'Mini',
+	's': 'Small',
+	'm': 'Medium',
+	'l': 'Large',
+	'xl': 'Extra Large'
+}
+
+const categoriesObjCalculations = {
+	'All': 'All',
+	'xs': 'Extra Small',
 	's': 'Small',
 	'm': 'Medium',
 	'l': 'Large',
@@ -19,8 +29,23 @@ function DevicesListItem(device) {
 
     const navigate = useNavigate();
 
-    const handleDeleteDevice = (e) => {
-        dispatch(deleteDevice(device.id))
+    const handleDeleteDevice = async (e) => {
+        await dispatch(deleteDevice(device.id));
+        await dispatch(deleteMeasurement(device.id))
+    }
+
+    const handleTitleClick = (e) => {
+
+        let newFilter = {
+            company: device.company,
+            category: categoriesObjCalculations[device.category]
+        };
+
+		dispatch(setFilter({
+			...newFilter
+		}));
+
+        navigate('/calculations');
     }
 
     return (
@@ -28,7 +53,7 @@ function DevicesListItem(device) {
 
             <div className="devices-list-item-main">
                 <div className="devices-list-item-main-name">
-                    <span>Name:</span> {device.name}
+                    <a onClick={handleTitleClick}><span>Name:</span> {device.name}</a>
                 </div>
                 <div className="devices-list-item-main-company">
                     <span>Company:</span> {device.company}

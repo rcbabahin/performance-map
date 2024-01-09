@@ -79,6 +79,7 @@ function CompareBass() {
 
     return (
         <div>
+            <h1 className="compare-header">Bass</h1>
             <FilterBox 
                 data={companies}
                 filter={currentCompany}

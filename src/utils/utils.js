@@ -81,7 +81,15 @@ export const httpGetDevices = async () => {
 
 export const httpPutDevice = async (device) => {
     try {
-        const response = await fetch(`${API_ROOT}/devices`);
+        const response = await fetch(`${API_ROOT}/device/${device.id}`, {  
+            method: 'PUT',
+            mode: 'cors',
+            headers: {
+                'Content-Type': 'application/json',
+                // 'x-access-token': auth.getBackendToken()
+            },
+            body: JSON.stringify(device)
+        });
         
         if (response.ok) {
             return response.json();
@@ -121,6 +129,22 @@ export const httpDeleteDevice = async (id) => {
 export const httpGetMeasurements = async () => {
     try {
         const response = await fetch(`${API_ROOT}/measurements`);
+        
+        if (response.ok) {
+            return response.json();
+        } else {
+            throw new Error(await response.json());            
+        }
+    } catch (e) {
+        return new Promise((resolve, reject) => {
+            reject(e)
+        })
+    }
+}
+
+export const httpGetMeasurementById = async (id) => {
+    try {
+        const response = await fetch(`${API_ROOT}/measurement/${id}`);
         
         if (response.ok) {
             return response.json();

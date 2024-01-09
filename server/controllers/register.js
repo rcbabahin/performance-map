@@ -1,4 +1,4 @@
-const handleRegister = (db) => (req, res) => {
+export const handleRegister = (db) => (req, res) => {
     const { name, company, category, size, measurements } = req.body;
     
     if (!name || !company || !category || !measurements || !size)
@@ -20,7 +20,7 @@ const handleRegister = (db) => (req, res) => {
                 return m;
             })
 
-            return trx('measurments').returning('*')
+            return trx('measurements').returning('*')
             .insert(meas)
             .then(data => res.json(data[0].device_id))
         })
@@ -29,5 +29,3 @@ const handleRegister = (db) => (req, res) => {
     })
     .catch(err => res.status(400).json('unable to register new device'))
 }
-
-export default handleRegister;

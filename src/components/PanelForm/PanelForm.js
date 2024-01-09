@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import PanelFormInput from "./PanelFormInput.js";
 import PanelFormSelect from "./PanelFormSelect.js";
@@ -7,8 +7,9 @@ import { csvToJson } from '../../utils/utils.js';
 import { useSelector, useDispatch } from 'react-redux';
 import { registerDevice } from '../../reducers/devices.js';
 import ModalNewDevice from '../Modal/ModalNewDevice.js';
+import { getMeasurementById } from '../../reducers/measurements.js';
 
-function PanelForm(props) {
+function PanelForm() {
     const [file, setFile] = useState({
 		measurements: [],
         name: '',
@@ -18,6 +19,21 @@ function PanelForm(props) {
 	});
 
     const status = useSelector(state => state.devices.status)
+    const lastDeviceId = useSelector(state => {
+        if (state.devices.devices.length) {
+            return state.devices.devices[state.devices.devices.length - 1].id
+        } else 
+            return 0
+    });
+
+    useEffect(() => {
+        if (lastDeviceId) {
+            dispatch(getMeasurementById(lastDeviceId));
+        }
+    }, [lastDeviceId])
+
+
+
     let navigate = useNavigate();
     const dispatch = useDispatch();
 
@@ -26,7 +42,7 @@ function PanelForm(props) {
     const inputSize = useRef(null);
     const select = useRef(null);
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
         const { measurements } = file;
@@ -47,7 +63,8 @@ function PanelForm(props) {
             measurements
         };
         
-        dispatch(registerDevice(device));
+        await dispatch(registerDevice(device));
+
         setFile({
             ...file,
             showModal: true
@@ -57,7 +74,7 @@ function PanelForm(props) {
     const handleCancel = (e) => {
         e.preventDefault();
         
-        navigate('/devices')
+        navigate('/devices');
     }
 
     const handleFileChange = (e) => {
@@ -119,7 +136,9 @@ function PanelForm(props) {
         setFile({
             ...file,
             showModal: false
-        })
+        });
+
+        navigate('/devices');
     }
 
     if (status === 'loading')

@@ -82,6 +82,7 @@ function CompareSPL() {
 
     return (
         <div>
+            <h1 className="compare-header">Sound Pressure Level</h1>
             <FilterBox 
                 data={[
                     'Z-weightened',

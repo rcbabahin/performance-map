@@ -1,12 +1,13 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import PanelFormInput from "../PanelForm/PanelFormInput.js";
 import PanelFormSelect from "../PanelForm/PanelFormSelect.js";
 import PanelFormUpload from "../PanelForm/PanelFormUpload.js";
 import { csvToJson } from '../../utils/utils.js';
 import { useSelector, useDispatch } from 'react-redux';
-import { registerDevice } from '../../reducers/devices.js';
+import { updateDevice } from '../../reducers/devices.js';
 import ModalNewDevice from '../Modal/ModalNewDevice.js';
+import { updateMeasurement } from '../../reducers/measurements.js';
 
 function EditDeviceForm() {
     const [file, setFile] = useState({
@@ -30,11 +31,7 @@ function EditDeviceForm() {
     const inputSize = useRef(null);
     const select = useRef(null);
 
-    useEffect(() => {
-
-    }, []);
-
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
 
         e.preventDefault();
 
@@ -48,7 +45,8 @@ function EditDeviceForm() {
             'Extra Large': 'xl'
         };
 
-        const device = {
+        const newDevice = {
+            id: device.id,
             name: inputName.current.value.trim(),
             company: inputCompany.current.value.trim(),
             size: inputSize.current.value.trim().replace(',', '.'),
@@ -56,7 +54,8 @@ function EditDeviceForm() {
             measurements
         };
         
-        // dispatch(updateDevice(device));
+        await dispatch(updateDevice(newDevice));
+        dispatch(updateMeasurement(newDevice.id));
 
         setFile({
             ...file,
@@ -68,7 +67,7 @@ function EditDeviceForm() {
         
         e.preventDefault();
         
-        navigate('/devices')
+        navigate('/devices');
     }
 
     const handleFileChange = (e) => {
@@ -135,6 +134,8 @@ function EditDeviceForm() {
             ...file,
             showModal: false
         })
+
+        navigate('/devices');
     }
 
     if (status === 'loading')

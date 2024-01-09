@@ -149,7 +149,8 @@ export const calculateGroupedBySize = (devices, measurements) => {
             items: []
         },        
     }
-
+    // console.log(devices)
+    // console.log(measurements)
     const updatedDevices = devices.map(device => {
        const temp = measurements.find(meas => meas.id === device.id);
 

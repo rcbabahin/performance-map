@@ -75,6 +75,7 @@ function CompareTHD() {
 
     return (
         <div>
+            <h1 className="compare-header">Total Harmonic Distortion</h1>
             <FilterBox 
                 data={companies}
                 filter={currentCompany}

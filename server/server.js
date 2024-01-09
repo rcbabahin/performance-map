@@ -3,7 +3,17 @@ import knex from "knex";
 import cors from "cors";
 import 'dotenv/config.js';
 
-import handleRegister from "./controllers/register.js";
+import { handleRegister } from "./controllers/register.js";
+import { 
+    handleDeleteDevice, 
+    handleGetAllDevices, 
+    handleGetDeviceById, 
+    handleUpdateDevice 
+} from "./controllers/devices.js";
+import { 
+    handleGetAllMeasurements, 
+    handleGetMeasurementById 
+} from "./controllers/measurements.js";
 
 const db = knex({
     client: 'pg',
@@ -23,86 +33,13 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(cors());
 
-app.get('/', (req, res) => { res.send({ response: 'hello from server'}) });
+app.get('/devices', handleGetAllDevices(db));
+app.get('/device/:id', handleGetDeviceById(db));
+app.delete('/device/:id', handleDeleteDevice(db));
+app.put('/device/:id', handleUpdateDevice(db));
 
-app.get('/devices', (req, res) => {
-    db.select('*').from('devices')
-        .then(devices => {
-            res.json(devices)
-        })
-        .catch(err => res.status(400).json('Error getting all devices'))
-})
-
-app.get('/device/:id', (req, res) => {
-    const { id } = req.params;
-
-    db.select('*').from('devices').where({ id })
-        .then(device => {
-            if (device.length) {
-                res.json(device[0]);
-            } else {
-                res.status(400).json('Not found');
-            }
-        })
-        .catch(err => res.status(400).json('Error getting device'))
-})
-
-app.delete('/device/:id', (req, res) => {
-    const { id } = req.params;
-    
-    db.transaction(trx => {
-        trx.del()
-        .from('measurments')
-        .where('device_id', '=', id)
-        .returning('device_id')
-        .then(data => {  
-            return trx
-                .del()
-                .from('devices')
-                .where('id', '=', data[0].device_id)
-                .returning('id')
-                .then(data => res.json(data[0].id))
-        })
-        .then(trx.commit)
-        .catch(trx.rollback)
-    })
-    .catch(err => res.status(400).json('Error deleting device'))
-})
-
-app.get('/measurements', (req, res) => {
-
-    db.select('*').from('devices')
-        .then(async devices => {
-            const retval = [];
-            
-            try {
-                for(let i = 0; i < devices.length; i++) {
-                    try {
-                        const meas =  await db.select('*').from('measurments').where('device_id', '=', devices[i].id);
-                    
-                        retval.push({ id: devices[i].id, items: [] })
-        
-                        meas.forEach(element => {
-                            delete element.device_id;
-                            retval[i].items.push(element);
-                        });
-                    }
-                    catch(e) {
-                        console.error(e);
-                        res.status(400).json('Error getting measurements')
-                    }
-                }
-                
-                res.json(retval);
-            }
-            catch (e) {
-                console.error(e);
-                res.status(400).json('Error getting measurements')
-            }
-
-        })
-        .catch(err => res.status(400).json('Error getting devices for measurements'))
-})
+app.get('/measurements', handleGetAllMeasurements(db));
+app.get('/measurement/:id', handleGetMeasurementById(db));
 
 app.post('/register', handleRegister(db));
 
