@@ -18,10 +18,10 @@ import {
 const db = knex({
     client: 'pg',
     connection: {
-        host: '127.0.0.1',
+        host: process.env.DB_HOST,
         user: 'postgres',
         password: process.env.DB_PASS,
-        database: 'audio_test'
+        database: process.env.DB_NAME
     }
 });
 

@@ -13,7 +13,7 @@ const Home = (props) => {
                     <p>App is intended to create and analyze different audio characteristics of devices and vizualize raw sound data.</p>
                     <button 
                         className='btn-black' 
-                        onClick={(e) => { navigate('/calculations') }}>
+                        onClick={(e) => { navigate('/devices') }}>
                             See devices
                     </button>
                 </div>
