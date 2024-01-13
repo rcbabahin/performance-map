@@ -37,7 +37,8 @@ export const csvToJson = (csv) => {
     return json;
 };
 
-const API_ROOT = 'http://localhost:3001';
+// const API_ROOT = 'http://localhost:3001';
+const API_ROOT = 'https://spm-2ui0.onrender.com';
  
 export const httpPostDevice = async (device) => {
     try {
