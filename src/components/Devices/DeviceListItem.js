@@ -1,31 +1,17 @@
+import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPen, faTrash } from '@fortawesome/free-solid-svg-icons';
-import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { deleteDevice, setFilter } from '../../reducers/devices.js';
+
+import { deleteDevice, setFilter, selectDeviceCategories } from '../../reducers/devices.js';
 import { deleteMeasurement } from '../../reducers/measurements.js';
-
-const categoriesObj = {
-	'All': 'All',
-	'xs': 'Mini',
-	's': 'Small',
-	'm': 'Medium',
-	'l': 'Large',
-	'xl': 'Extra Large'
-}
-
-const categoriesObjCalculations = {
-	'All': 'All',
-	'xs': 'Extra Small',
-	's': 'Small',
-	'm': 'Medium',
-	'l': 'Large',
-	'xl': 'Extra Large'
-}
 
 function DevicesListItem(device) {
 
     const dispatch = useDispatch();
+
+    const categories = useSelector(selectDeviceCategories);
 
     const navigate = useNavigate();
 
@@ -38,7 +24,7 @@ function DevicesListItem(device) {
 
         let newFilter = {
             company: device.company,
-            category: categoriesObjCalculations[device.category]
+            category: categories[device.category]
         };
 
 		dispatch(setFilter({
@@ -62,7 +48,7 @@ function DevicesListItem(device) {
                     <span>Volume:</span> {device.size} liters
                 </div>
                 <div className="devices-list-item-main-category">
-                    <span>Size caterogy:</span> {categoriesObj[device.category]}
+                    <span>Size caterogy:</span> {categories[device.category]}
                 </div>
             </div>
 

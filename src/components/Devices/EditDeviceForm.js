@@ -1,13 +1,16 @@
 import { useState, useRef } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+
 import PanelFormInput from "../PanelForm/PanelFormInput.js";
 import PanelFormSelect from "../PanelForm/PanelFormSelect.js";
 import PanelFormUpload from "../PanelForm/PanelFormUpload.js";
-import { csvToJson } from '../../utils/utils.js';
-import { useSelector, useDispatch } from 'react-redux';
-import { updateDevice } from '../../reducers/devices.js';
 import ModalNewDevice from '../Modal/ModalNewDevice.js';
+
+import { updateDevice, selectDevicesStatus } from '../../reducers/devices.js';
 import { updateMeasurement } from '../../reducers/measurements.js';
+
+import { csvToJson } from '../../utils/utils.js';
 
 function EditDeviceForm() {
     const [file, setFile] = useState({
@@ -18,7 +21,7 @@ function EditDeviceForm() {
         showModal: false
 	});
 
-    const status = useSelector(state => state.devices.status);
+    const status = useSelector(selectDevicesStatus);
 
     const navigate = useNavigate();
     const location = useLocation();
@@ -38,7 +41,7 @@ function EditDeviceForm() {
         const { measurements } = file;
 
         const category = {
-            'Extra Small': 'xs',
+            'Mini': 'xs',
             'Small': 's',
             'Medium': 'm',
             'Large': 'l',

@@ -1,20 +1,6 @@
-import { BarChart, Bar, CartesianGrid, XAxis, YAxis, Tooltip, Legend, ReferenceLine, Cell } from "recharts";
+import { BarChart, Bar, CartesianGrid, XAxis, YAxis, Tooltip, ReferenceLine, Cell } from "recharts";
 
-const colors = {
-    'Amazon': '#4472C4',
-    'Apple': '#66FFFF',
-    'Bose': '#757171',
-    'Facebook': '#70AD47',
-    'Google': '#FBA3A3',
-    'Harman Kardon': '#9900CC',
-    'JBL': '#FF9900',
-    'SberBoom': '#FF00FF',
-    'Sonos': '#92D050',
-    'Vifa': '#FFCC66',
-    'VK': '#00CCFF',
-    'Xiaomi': '#F8CBAD',
-    'Yandex': '#82ca9d'
-}
+import { companyColors } from '../../utils/utils.js'
 
 function GraphRatings({ data }) {
     const { average, items, header } = data;
@@ -43,7 +29,7 @@ function GraphRatings({ data }) {
                 >
                     {
                         items.map((item, index) => (
-                            <Cell key={`cell-${index}`} fill={colors[item.company]} />
+                            <Cell key={`cell-${index}`} fill={companyColors[item.company]} />
                         ))
                     }
                 </Bar>

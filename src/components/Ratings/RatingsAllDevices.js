@@ -1,19 +1,21 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 
-import { getMeasurements, setFilter } from "../../reducers/measurements.js";
-import { getDevices } from "../../reducers/devices.js";
 import GraphAllDevicesRatings from "../Graphs/GraphAllDevicesRatings.js";
 import FilterBox from "../FilterBox/FilterBox.js";
 
-const categoriesObj = {
-	'All': 'All',
-	'Mini': 'xs',
-	'Small': 's',
-	'Medium': 'm',
-	'Large': 'l',
-	'Extra Large': 'xl'
-}
+import { 
+    getMeasurements, 
+    setFilter,
+    selectMeasurementsFilter, 
+    selectMeasurementsStatus, 
+    selectRatingsAllDevices 
+} from "../../reducers/measurements.js";
+import { 
+    getDevices, 
+    selectCompanies, 
+    selectDevicesStatus 
+} from "../../reducers/devices.js";
 
 const ratingsNames = ['SPL', 'Bass Performance', 'SPL Performance', 'Bass / SPL', 'Flatness Index', 'Preference Index']
 
@@ -21,14 +23,13 @@ function RatingsAllDevices() {
 
     const dispatch = useDispatch();
 
-    const devicesStatus = useSelector(state => state.devices.status);
-    
-    const measurementsStatus = useSelector(state => state.measurements.status);
+    const devicesStatus = useSelector(selectDevicesStatus);
+    const measurementsStatus = useSelector(selectMeasurementsStatus);
 
-    const companies = ['All', ...useSelector(state => state.devices.companies)];
+    const companies = useSelector(selectCompanies);
 
-    const filter = useSelector(state => state.measurements.filter);
-    const ratings = useSelector(state => state.measurements.ratingsAllDevices)
+    const filter = useSelector(selectMeasurementsFilter);
+    const ratings = useSelector(selectRatingsAllDevices)
 
     useEffect(() => {
         if (devicesStatus === 'idle') {
@@ -39,7 +40,7 @@ function RatingsAllDevices() {
             dispatch(getMeasurements());
         }
 
-    }, [dispatch]);
+    }, []);
 
     let graphsContent;
 

@@ -10,7 +10,7 @@ const PanelFormSelect = forwardRef(({ selected }, ref) => {
                     id="standard-select" 
                     ref={ref} 
                 >
-                    <option value="Extra Small" selected={selected === 'xs'} >Extra Small</option>
+                    <option value="Mini" selected={selected === 'xs'} >Mini</option>
                     <option value="Small" selected={selected === 's'} >Small</option>
                     <option value="Medium" selected={selected === 'm'} >Medium</option>
                     <option value="Large" selected={selected === 'l'} >Large</option>

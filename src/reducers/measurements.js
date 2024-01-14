@@ -1,7 +1,7 @@
 
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { createSlice, current } from '@reduxjs/toolkit';
-import { httpGetMeasurements, httpGetMeasurementById } from '../utils/utils.js';
+import { httpGetMeasurements, httpGetMeasurementById } from '../utils/network.js';
 import { calculateAllDevicesRatings, calculateBassSPL, calculateWeightedSPLAndTHD } from '../utils/calculations.js';
 import { calculateGroupedBySize, selectDataFromArray } from '../utils/calculations.js';
 
@@ -190,6 +190,12 @@ const measurementsSlice = createSlice({
             
     },
 })
+
+export const selectMeasurementsStatus = state => state.measurements.status;
+export const selectMeasurementsFilter = state => state.measurements.filter;
+export const selectMeasurements = state => state.measurements.measurements;
+export const selectRatingsAllDevices = state => state.measurements.ratingsAllDevices;
+export const selectRatings = state => state.measurements.ratings;
 
 export const getMeasurements = createAsyncThunk(
     'measurements/getMeasurements', 

@@ -1,8 +1,10 @@
 import { useSelector } from "react-redux";
 
+import { selectDevicesStatus, selectDevciesError } from "../../reducers/devices";
+
 function ModalNewDevice({ handleModalClose }) {
-    const status = useSelector(state => state.devices.status);
-    const error = useSelector(state => state.devices.error);
+    const status = useSelector(selectDevicesStatus);
+    const error = useSelector(selectDevciesError);
     let text = '';
 
     if (status === 'loading')

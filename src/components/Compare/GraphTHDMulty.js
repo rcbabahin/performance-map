@@ -1,5 +1,7 @@
-import CustomTooltip from "./CustomTooltip.js";
 import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
+
+import CustomTooltip from "./CustomTooltip.js";
+
 import { getColor } from "../../utils/utils.js";
 
 function GraphTHDMulty({ data }) {

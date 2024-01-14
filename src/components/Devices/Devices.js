@@ -1,22 +1,24 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getDevices } from "../../reducers/devices.js";
+
 import FilterBox from "../FilterBox/FilterBox.js";
 import DevicesList from "./DevicesList.js";
 import DevicesTitle from "./DevicesTitle.js";
+
+import { getDevices, selectCompanies, selectDevicesStatus, selectDevices } from "../../reducers/devices.js";
 
 function Devices() {
     const [ currentCompany, setCurrentCompany ] = useState('All');
 
     const dispatch = useDispatch();
 
-    const devicesStatus = useSelector(state => state.devices.status);
-    const devices = useSelector(state => state.devices.devices);
+    const status = useSelector(selectDevicesStatus);
+    const devices = useSelector(selectDevices);
 
-    const companies = ['All', ...useSelector(state => state.devices.companies)];
+    const companies = useSelector(selectCompanies);
 
     useEffect(() => {
-        if (devicesStatus === 'idle') {
+        if (status === 'idle') {
             dispatch(getDevices());
         }
     }, []);
@@ -28,10 +30,10 @@ function Devices() {
         setCurrentCompany(innerText);
 	}
 
-    if (devicesStatus === 'loading') {
+    if (status === 'loading') {
         return <div className='loading'/>
-    } else if (devicesStatus === 'failed') {
-        return <div className="something-went-wrong">Downloading failed ಠ﹏ಠ</div>
+    } else if (status === 'failed') {
+        // return <div className="something-went-wrong">Downloading failed ಠ﹏ಠ</div>
     }
 
     const filteredDevices = devices.filter(d => {

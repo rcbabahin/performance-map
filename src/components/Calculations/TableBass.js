@@ -1,5 +1,4 @@
 
-import { calculateBassSPL } from "../../utils/calculations.js";
 import GraphBass from "../Graphs/GraphBass.js";
 
 function TableBass({ data }) {

@@ -1,35 +1,35 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getDevices, setCurrentDeviceId, setFilter } from "../../reducers/devices.js";
+
 import CalculationsTable from "./CalculationsTable.js";
 import FilterBox from "../FilterBox/FilterBox.js";
 
-const categoriesObj = {
-	'All': 'All',
-	'Extra Small': 'xs',
-	'Small': 's',
-	'Medium': 'm',
-	'Large': 'l',
-	'Extra Large': 'xl'
-}
+import { 
+	getDevices, 
+	setCurrentDeviceId, 
+	setFilter, 
+	selectCompanies,
+	selectDevicesStatus,
+	selectDevicesFilter,
+	selectCurrentDeviceId,
+	selectDeviceCategories
+} from "../../reducers/devices.js"
 
 function Calculations() {
 
 	const dispatch = useDispatch();
 
-	const status = useSelector(state => state.devices.status);
-	const companies = useSelector(state => state.devices.companies);
-	const categories = Object.keys(categoriesObj);
-	const filter = useSelector(state => state.devices.filter);
-	const currentDeviceId = useSelector(state => state.devices.currentDeviceId); 
+	const status = useSelector(selectDevicesStatus);
+	const [ all, ...companies ] = useSelector(selectCompanies);
+	const filter = useSelector(selectDevicesFilter);
+	const currentDeviceId = useSelector(selectCurrentDeviceId); 
+	const categories = useSelector(selectDeviceCategories)
 
 	useEffect(() => {
-
 		if (status === 'idle') {
 			dispatch(getDevices())
 		}
-		
-    }, [status, dispatch])
+    }, [])
 
 	const handleClick = (type) => (e) => {
 		const innerText = e.target.innerText;

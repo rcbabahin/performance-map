@@ -1,6 +1,8 @@
 import { useState } from "react";
+
 import TableHeader from "./TableHeader.js";
 import TableRow from "./TableRow.js";
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
 

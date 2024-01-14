@@ -1,13 +1,16 @@
 import { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+
 import PanelFormInput from "./PanelFormInput.js";
 import PanelFormSelect from "./PanelFormSelect.js";
 import PanelFormUpload from "./PanelFormUpload.js";
-import { csvToJson } from '../../utils/utils.js';
-import { useSelector, useDispatch } from 'react-redux';
-import { registerDevice } from '../../reducers/devices.js';
 import ModalNewDevice from '../Modal/ModalNewDevice.js';
+
+import { registerDevice, selectDevicesStatus, selectLastDeviceId } from '../../reducers/devices.js';
 import { getMeasurementById } from '../../reducers/measurements.js';
+
+import { csvToJson } from '../../utils/utils.js';
 
 function PanelForm() {
     const [file, setFile] = useState({
@@ -18,13 +21,8 @@ function PanelForm() {
         showModal: false
 	});
 
-    const status = useSelector(state => state.devices.status)
-    const lastDeviceId = useSelector(state => {
-        if (state.devices.devices.length) {
-            return state.devices.devices[state.devices.devices.length - 1].id
-        } else 
-            return 0
-    });
+    const status = useSelector(selectDevicesStatus)
+    const lastDeviceId = useSelector(selectLastDeviceId);
 
     useEffect(() => {
         if (lastDeviceId) {
@@ -48,7 +46,7 @@ function PanelForm() {
         const { measurements } = file;
 
         const category = {
-            'Extra Small': 'xs',
+            'Mini': 'xs',
             'Small': 's',
             'Medium': 'm',
             'Large': 'l',

@@ -6,12 +6,12 @@ import {
     httpGetDevices, 
     httpPutDevice,
     httpDeleteDevice
-} from '../utils/utils.js';
+} from '../utils/network.js';
 
 const getFilteredDevices = (devices, filter) => {
     const categoriesObj = {
         'All': 'All',
-        'Extra Small': 'xs',
+        'Mini': 'xs',
         'Small': 's',
         'Medium': 'm',
         'Large': 'l',
@@ -19,6 +19,7 @@ const getFilteredDevices = (devices, filter) => {
     }
 
 	if (!devices.length) return []
+    
 	return devices.filter(({ company, category }) => company === filter.company && (filter.category === 'All' || category === categoriesObj[filter.category]))
 }
 
@@ -31,7 +32,7 @@ const initialState = {
         devices: []
     },
     currentDeviceId: 0,
-    categories: ['All', 'Extra Small', 'Small', 'Medium', 'Large', 'Extra Large'],
+    categories: ['All', 'Mini', 'Small', 'Medium', 'Large', 'Extra Large'],
     status: 'idle', //'idle' | 'loading' | 'succeeded' | 'failed'
     error: null
 }
@@ -75,7 +76,7 @@ const devicesSlice = createSlice({
                 state.devices = action.payload;
 
                 const companies = Array.from(new Set(action.payload.map(({ company }) => company)));
-                state.companies = companies;
+                state.companies = ['All', ...companies];
                 state.filter.company = companies[0];
 
                 const filteredDevices = getFilteredDevices(action.payload, { company: companies[0], category: 'All' });
@@ -163,7 +164,19 @@ const devicesSlice = createSlice({
     },
 })
 
-// export const selectCompanies = state => state.devices.companies
+export const selectCompanies = state => state.devices.companies;
+export const selectDeviceCategories = state => state.devices.categories;
+export const selectDevicesStatus = state => state.devices.status;
+export const selectDevciesError = state => state.devices.error;
+export const selectDevicesFilter = state => state.devices.filter;
+export const selectCurrentDeviceId = state => state.devices.currentDeviceId;
+export const selectDevices = state => state.devices.devices;
+export const selectLastDeviceId = state => {
+    if (state.devices.devices.length) {
+        return state.devices.devices[state.devices.devices.length - 1].id
+    } else 
+        return 0
+}
 
 export const registerDevice = createAsyncThunk(
     'devices/registerDevice',

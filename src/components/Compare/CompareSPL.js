@@ -1,12 +1,13 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+
 import GraphSPLMulty from "./GraphSPLMulty.js";
 import FilterBox from "../FilterBox/FilterBox.js";
 import DevicesList from "./DevicesList.js";
 import GraphLinesNames from "./GraphLinesNames.js";
 
-import { getMeasurements } from "../../reducers/measurements.js";
-import { getDevices } from "../../reducers/devices.js";
+import { getMeasurements, selectMeasurementsStatus, selectMeasurements } from "../../reducers/measurements.js";
+import { getDevices, selectCompanies, selectDevicesStatus, selectDevices } from "../../reducers/devices.js";
 
 function CompareSPL() {
     const [ data, setData ] = useState([]);
@@ -15,13 +16,13 @@ function CompareSPL() {
 
     const dispatch = useDispatch();
 
-    const devicesStatus = useSelector(state => state.devices.status);
-    const measurementsStatus = useSelector(state => state.measurements.status);
+    const devicesStatus = useSelector(selectDevicesStatus);
+    const measurementsStatus = useSelector(selectMeasurementsStatus);
 
-    const devices = useSelector(state => state.devices.devices);
-    const measurements = useSelector(state => state.measurements.measurements);
+    const devices = useSelector(selectDevices);
+    const measurements = useSelector(selectMeasurements);
 
-    const companies = ['All', ...useSelector(state => state.devices.companies)];
+    const companies = useSelector(selectCompanies);
 
     useEffect(() => {
         if (devicesStatus === 'idle') {

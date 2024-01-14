@@ -1,4 +1,5 @@
 import { useState } from 'react';
+
 import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, Legend, ReferenceLine } from "recharts";
 
 function GraphSPL({ graphData, rawData, THDData, averageSPL }) {

@@ -1,5 +1,6 @@
-import boombox from '../../assets/boom-box.png';
 import { useNavigate } from 'react-router-dom';
+
+import boombox from '../../assets/boom-box.png';
 
 const Home = (props) => { 
 
