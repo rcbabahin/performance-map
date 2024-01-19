@@ -152,7 +152,7 @@ function EditDeviceForm() {
                 <form id='add-feedback-form' onSubmit={handleSubmit}>
                     <PanelFormInput ref={inputName} text="Device's name" defaultValue={device.name} />
                     <PanelFormInput ref={inputCompany} text="Company's name" defaultValue={device.company} />
-                    <PanelFormInput ref={inputSize} text="Device's Size" defaultValue={device.size} />
+                    <PanelFormInput ref={inputSize} text="Device's Size in litres" defaultValue={device.size} />
                     <PanelFormSelect ref={select} selected={device.category} />
                     <PanelFormUpload 
                         fileName={file.name}

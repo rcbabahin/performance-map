@@ -12,7 +12,7 @@ import {
 	selectDevicesStatus,
 	selectDevicesFilter,
 	selectCurrentDeviceId,
-	selectDeviceCategories
+	selectSizeCategoriesArray
 } from "../../reducers/devices.js"
 
 function Calculations() {
@@ -23,7 +23,7 @@ function Calculations() {
 	const [ all, ...companies ] = useSelector(selectCompanies);
 	const filter = useSelector(selectDevicesFilter);
 	const currentDeviceId = useSelector(selectCurrentDeviceId); 
-	const categories = useSelector(selectDeviceCategories)
+	const categories = useSelector(selectSizeCategoriesArray)
 
 	useEffect(() => {
 		if (status === 'idle') {

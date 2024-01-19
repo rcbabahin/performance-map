@@ -32,7 +32,15 @@ const initialState = {
         devices: []
     },
     currentDeviceId: 0,
-    categories: ['All', 'Mini', 'Small', 'Medium', 'Large', 'Extra Large'],
+    categoriesArray: ['All', 'Mini', 'Small', 'Medium', 'Large', 'Extra Large'],
+    categoriesObject: {
+        'All': 'All',
+        'xs': 'Mini',
+        's': 'Small',
+        'm': 'Medium',
+        'l': 'Large',
+        'xl': 'Extra Large'
+    },
     status: 'idle', //'idle' | 'loading' | 'succeeded' | 'failed'
     error: null
 }
@@ -165,7 +173,8 @@ const devicesSlice = createSlice({
 })
 
 export const selectCompanies = state => state.devices.companies;
-export const selectDeviceCategories = state => state.devices.categories;
+export const selectSizeCategoriesObject = state => state.devices.categoriesObject;
+export const selectSizeCategoriesArray = state => state.devices.categoriesArray;
 export const selectDevicesStatus = state => state.devices.status;
 export const selectDevciesError = state => state.devices.error;
 export const selectDevicesFilter = state => state.devices.filter;

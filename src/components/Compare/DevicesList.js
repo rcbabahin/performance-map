@@ -1,6 +1,6 @@
 import { getColor } from "../../utils/utils.js";
 
-function DevicesList({ allDevices, selectedDevices, handleAddDevice }) {
+function DevicesList({ allDevices, selectedDevices, handleClick }) {
 
     return (
         <div className="filter-box">
@@ -13,7 +13,7 @@ function DevicesList({ allDevices, selectedDevices, handleAddDevice }) {
                                 key={device.id} 
                                 className={`filter-box-item ${isSelected > -1 ? 'active' : ''}`}
                                 style={{ color: isSelected > -1 ? getColor(device.name) : '' }}
-                                onClick={handleAddDevice(device.id)}
+                                onClick={handleClick(device.id)}
                             >
                                 {device.name}
                             </div>	

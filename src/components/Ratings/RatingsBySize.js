@@ -15,7 +15,7 @@ import {
     getDevices, 
     selectCompanies, 
     selectDevicesStatus,
-    selectDeviceCategories
+    selectSizeCategoriesArray
 } from "../../reducers/devices.js";
 
 const ratingsNames = ['SPL', 'Bass Performance', 'SPL Performance', 'Bass / SPL', 'Flatness Index', 'Preference Index']
@@ -28,7 +28,7 @@ function RatingsBySize() {
     const measurementsStatus = useSelector(selectMeasurementsStatus);
 
     const companies = useSelector(selectCompanies);
-	const categories = useSelector(selectDeviceCategories);
+	const categories = useSelector(selectSizeCategoriesArray);
 
     const ratings = useSelector(selectRatings);
     const filter = useSelector(selectMeasurementsFilter);

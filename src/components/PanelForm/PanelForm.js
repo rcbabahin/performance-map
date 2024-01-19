@@ -150,7 +150,7 @@ function PanelForm() {
                 <form id='add-feedback-form' onSubmit={handleSubmit}>
                     <PanelFormInput ref={inputName} text="Device's name" placeholder="Type device's name" />
                     <PanelFormInput ref={inputCompany} text="Company's name" placeholder="Type company's name" />
-                    <PanelFormInput ref={inputSize} text="Device's Size" placeholder="Type devices's volume" />
+                    <PanelFormInput ref={inputSize} text="Device's Size in liters" placeholder="Type devices's volume" />
                     <PanelFormSelect ref={select} />
                     <PanelFormUpload 
                         fileName={file.name}

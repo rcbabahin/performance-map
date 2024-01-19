@@ -4,14 +4,18 @@ import { useDispatch, useSelector } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPen, faTrash } from '@fortawesome/free-solid-svg-icons';
 
-import { deleteDevice, setFilter, selectDeviceCategories } from '../../reducers/devices.js';
+import { 
+    deleteDevice, 
+    setFilter, 
+    selectSizeCategoriesObject
+} from '../../reducers/devices.js';
 import { deleteMeasurement } from '../../reducers/measurements.js';
 
 function DevicesListItem(device) {
-
+    
     const dispatch = useDispatch();
 
-    const categories = useSelector(selectDeviceCategories);
+    const categories = useSelector(selectSizeCategoriesObject);
 
     const navigate = useNavigate();
 

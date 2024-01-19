@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import GraphBassMulty from "./GraphBassMulty.js";
@@ -6,13 +6,26 @@ import FilterBox from "../FilterBox/FilterBox.js";
 import DevicesList from "./DevicesList.js";
 import GraphLinesNames from "./GraphLinesNames.js";
 
-import { getMeasurements, selectMeasurementsStatus, selectMeasurements } from "../../reducers/measurements.js";
-import { getDevices, selectCompanies, selectDevicesStatus, selectDevices } from "../../reducers/devices.js";
+import { 
+    getMeasurements, 
+    selectMeasurementsStatus, 
+    selectMeasurements 
+} from "../../reducers/measurements.js";
+import { 
+    getDevices, 
+    selectCompanies, 
+    selectDevicesStatus, 
+    selectDevices 
+} from "../../reducers/devices.js";
+import { 
+    handleActiveDevice, 
+    selectBassGraphData, 
+    selectCurrentCompany, 
+    selectFilteredDevices, 
+    setCompany 
+} from "../../reducers/compare.js";
 
 function CompareBass() {
-    const [ bassData, setBassData ] = useState([]);
-    const [ currentCompany, setCurrentCompany ] = useState('All');
-
     const dispatch = useDispatch();
 
     const devicesStatus = useSelector(selectDevicesStatus);
@@ -23,6 +36,10 @@ function CompareBass() {
 
     const companies = useSelector(selectCompanies);
 
+    const filteredDevices = useSelector(selectFilteredDevices);
+    const bassData = useSelector(selectBassGraphData);
+    const currentCompany = useSelector(selectCurrentCompany);
+
     useEffect(() => {
         if (devicesStatus === 'idle') {
             dispatch(getDevices());
@@ -32,36 +49,21 @@ function CompareBass() {
             dispatch(getMeasurements());
         }
 
-    }, []);
+        dispatch(setCompany({ devices, company: 'All' }));
+    }, [devices]);
 
     const handleAddDevice = (id) => (e) => {
         
-        const { bass } = measurements.find(m => m.id === id)
         const { name } = devices.find(d => d.id === id);
 
-        const idIndex = bassData.findIndex(item => item.id === id);
-
-        if (idIndex === -1) {
-            const bassGraphData = [
-                {Hz: bass['-10dB'].freq, SPL: bass['-10dB'].SPL.toFixed(2)},
-                {Hz: bass['-3dB'].freq, SPL: bass['-3dB'].SPL.toFixed(2)},
-                {Hz: bass['0dB'].freq, SPL: bass['0dB'].SPL.toFixed(2)},
-            ]
-            
-            setBassData([...bassData, { items: bassGraphData, name, id }])
-        } else {
-            const dataCopy = [...bassData];
-            dataCopy.splice(idIndex, 1);
-            
-            setBassData([...dataCopy]);
-        }
+        dispatch(handleActiveDevice({ id, measurements, name }));
     }
 
     const handleFilterClick = (e) => {
 
 		const innerText = e.target.innerText;
 
-        setCurrentCompany(innerText);
+        dispatch(setCompany({ devices, company: innerText }));
 	}
 
     if (devicesStatus === 'loading' || measurementsStatus === 'loading') {
@@ -69,14 +71,6 @@ function CompareBass() {
     } else if (devicesStatus === 'failed' || measurementsStatus === 'failed') {
         return <div className="something-went-wrong">Downloading failed ಠ﹏ಠ</div>
     }
-
-    const filteredDevices = devices.filter(d => {
-        if (currentCompany === 'All') {
-            return true;
-        } else {
-            return d.company === currentCompany;
-        }
-    });
 
     return (
         <div>
@@ -90,7 +84,7 @@ function CompareBass() {
             <DevicesList 
                 allDevices={filteredDevices}
                 selectedDevices={bassData}
-                handleAddDevice={handleAddDevice}
+                handleClick={handleAddDevice}
             />
             <GraphLinesNames selectedDevices={bassData} />
             <GraphBassMulty data={bassData}/>

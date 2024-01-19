@@ -1336,6 +1336,15 @@ span.table-name {
 	}
 }
 
+.arrow-down {
+	border: solid white;
+	border-width: 0 2px 2px 0;
+	display: inline-block;
+	padding: 3px;
+	transform: rotate(45deg);
+	-webkit-transform: rotate(45deg);
+}
+
 .devices-container {
 	max-width: 1400px;
 	margin: 30px auto;
@@ -1423,6 +1432,40 @@ span.table-name {
 					transform: translateY(-2px);
 					background-color: #813199;
 				}
+			}
+
+			.devices-list-title-sortby {
+				margin-left: 50px;
+				// font-size: smaller;
+				// color: #3498db;
+
+				.sortby-list-arrow {
+					cursor: pointer;
+					color: #3498db;
+					position: relative;
+
+					ul.sortby-list {
+						position: absolute;
+						width: 150px;
+						list-style: none;
+						color: gray;
+						background-color: whitesmoke;
+						text-decoration: none;
+						padding: 10px 0px;
+						left: -20px;
+						top: 25px;
+
+						li {
+							padding: 10px 20px;
+
+							&:hover {
+								color: white;
+								background-color: #3498db;
+							}
+						}
+					}
+				}
+				
 			}
 		}
 
