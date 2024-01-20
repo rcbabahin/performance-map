@@ -1547,6 +1547,7 @@ span.table-name {
 					margin-top: auto;
 					color: rgb(201, 77, 77);
 					background-color: rgb(240, 240, 240);
+					position: relative;
 
 					&:active {
 						color: black;
@@ -1555,6 +1556,43 @@ span.table-name {
 					&:hover {
 						transform: translateY(-2px);
 						background-color: rgb(224, 220, 220);
+					}
+
+					.prompt {
+						position: absolute;
+						color: black;
+						padding: 30px 30px;
+						top: -60px;
+						left: -80px;
+						background-color: white;
+						border: 2px solid black;
+						display: grid;
+						grid-template-rows: 50px 40px;
+						grid-template-columns: 120px 120px;
+						gap: 10px;
+
+						span {
+							grid-column: 1/3;
+							align-self: center;
+						}
+
+						.prompt-yes-btn {
+							color: rgb(201, 77, 77);
+							transition: none;
+
+							&:hover {
+								border: 2px solid red;
+							}
+						}
+
+						.prompt-cancel-btn {
+							color: gray;
+							transition: none;
+							
+							&:hover {
+								border: 2px solid gray;
+							}
+						}
 					}
 				}
 			}

@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -12,14 +13,25 @@ import {
 import { deleteMeasurement } from '../../reducers/measurements.js';
 
 function DevicesListItem(device) {
-    
+    const [ showPrompt, setShowPrompt ] = useState(false);
+
     const dispatch = useDispatch();
 
     const categories = useSelector(selectSizeCategoriesObject);
 
     const navigate = useNavigate();
 
-    const handleDeleteDevice = async (e) => {
+    const handlePrompt = (prompt) => (e) => {
+        e.stopPropagation();
+
+        if (prompt === 'delete') {
+            DeleteDevice();
+            setShowPrompt(false);
+        }
+        else if (prompt === 'cancel') setShowPrompt(false);
+    }
+
+    const DeleteDevice = async (e) => {
         await dispatch(deleteDevice(device.id));
         await dispatch(deleteMeasurement(device.id))
     }
@@ -65,8 +77,25 @@ function DevicesListItem(device) {
                 </button>
                 <button 
                     className="devices-list-delete-button"
-                    onClick={ handleDeleteDevice }
+                    onClick={ () => { setShowPrompt(!showPrompt); } }
                 > 
+                    { showPrompt && 
+                        <div className="prompt" onMouseLeave={() => { setShowPrompt(false); }}>
+                            <span>Are you sure you want to delete device? </span>
+                            <button 
+                                className="prompt-yes-btn" 
+                                onClick={handlePrompt('delete')}
+                            >
+                                Yes
+                            </button>
+                            <button 
+                                className="prompt-cancel-btn" 
+                                onClick={handlePrompt('cancel')}
+                            >
+                                Cancel
+                            </button>
+                        </div>
+                    }
                     <FontAwesomeIcon icon={faTrash} size='sm'/> Delete
                 </button>
             </div>
