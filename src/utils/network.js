@@ -119,3 +119,51 @@ export const httpGetMeasurementById = async (id) => {
         })
     }
 }
+
+export const getUser = async (user) => {
+    try {
+        const response = await fetch(`${API_ROOT}/signin`, {  
+            method: 'POST',
+            mode: 'cors',
+            headers: {
+                'Content-Type': 'application/json',
+                // 'x-access-token': auth.getBackendToken()
+            },
+            body: JSON.stringify(user)
+        });
+        
+        if (response.ok) {
+            return response.json();
+        } else {
+            throw new Error(await response.json());            
+        }
+    } catch (e) {
+        return new Promise((resolve, reject) => {
+            reject(e)
+        })
+    }
+}
+
+export const createUser = async (user) => {
+    try {
+        const response = await fetch(`${API_ROOT}/signup`, {  
+            method: 'POST',
+            mode: 'cors',
+            headers: {
+                'Content-Type': 'application/json',
+                // 'x-access-token': auth.getBackendToken()
+            },
+            body: JSON.stringify(user)
+        });
+        
+        if (response.ok) {
+            return response.json();
+        } else {
+            throw new Error(await response.json());            
+        }
+    } catch (e) {
+        return new Promise((resolve, reject) => {
+            reject(e)
+        })
+    }
+}

@@ -1,11 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit';
+import authReducer from './reducers/auth.js'
 import devicesReducer from './reducers/devices.js'
 import measurementsReducer from './reducers/measurements.js';
 import compareReducer from './reducers/compare.js';
-// import { logger } from 'redux-logger';
 
 const store = configureStore({
     reducer: {
+        auth: authReducer,
         devices: devicesReducer,
         measurements: measurementsReducer,
         compare: compareReducer,

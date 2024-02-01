@@ -1,7 +1,7 @@
+import { createUser } from "../../utils/network.js";
 import InfoItem from "./InfoItem.js";
 
 function Info() {
-
     return (    
         <div className="info-container">
             <InfoItem header='Bass vs SPL'>
