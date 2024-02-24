@@ -36,17 +36,17 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(cors());
 
-app.get('/devices', handleGetAllDevices(db));
-app.get('/device/:id', handleGetDeviceById(db));
-app.delete('/device/:id', handleDeleteDevice(db));
-app.put('/device/:id', handleUpdateDevice(db));
+app.get('/api/devices', handleGetAllDevices(db));
+app.get('/api/device/:id', handleGetDeviceById(db));
+app.delete('/api/device/:id', handleDeleteDevice(db));
+app.put('/api/device/:id', handleUpdateDevice(db));
 
-app.get('/measurements', handleGetAllMeasurements(db));
-app.get('/measurement/:id', handleGetMeasurementById(db));
+app.get('/api/measurements', handleGetAllMeasurements(db));
+app.get('/api/measurement/:id', handleGetMeasurementById(db));
 
-app.post('/register', handleRegister(db));
-app.post('/signup', handleSignup(db, bcrypt));
-app.post('/signin', handleSignin(db, bcrypt));
+app.post('/api/register', handleRegister(db));
+// app.post('/api/signup', handleSignup(db, bcrypt));
+app.post('/api/signin', handleSignin(db, bcrypt));
 
 app.listen(PORT, () => {
     console.log(`app is running on port ${PORT}`)
