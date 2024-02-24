@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import FilterBox from "../FilterBox/FilterBox.js";
 import DevicesList from "./DevicesList.js";
 import DevicesTitle from "./DevicesTitle.js";
+// import DevicesTable from "./DevicesTable.js";
 
 import { 
     getDevices, 
@@ -118,6 +119,7 @@ function Devices() {
                     sortOrder={sortOrder}
                     handleSort={handleSort}
                 />
+                {/* <DevicesTable devices={filteredDevices} /> */}
                 <DevicesList devices={filteredDevices} />
             </div>
         </div>

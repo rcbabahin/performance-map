@@ -3,14 +3,13 @@ import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 
 import PanelFormInput from "./PanelFormInput.js";
-import PanelFormSelect from "./PanelFormSelect.js";
 import PanelFormUpload from "./PanelFormUpload.js";
 import ModalNewDevice from '../Modal/ModalNewDevice.js';
 
 import { registerDevice, selectDevicesStatus, selectLastDeviceId } from '../../reducers/devices.js';
 import { getMeasurementById } from '../../reducers/measurements.js';
 
-import { csvToJson } from '../../utils/utils.js';
+import { chooseCategory, csvToJson } from '../../utils/utils.js';
 
 function PanelForm() {
     const [file, setFile] = useState({
@@ -38,26 +37,21 @@ function PanelForm() {
     const inputName = useRef(null);
     const inputCompany = useRef(null);
     const inputSize = useRef(null);
-    const select = useRef(null);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
         const { measurements } = file;
 
-        const category = {
-            'Mini': 'xs',
-            'Small': 's',
-            'Medium': 'm',
-            'Large': 'l',
-            'Extra Large': 'xl'
-        };
+        const size = inputSize.current.value.trim().replace(',', '.');
+
+        const category = chooseCategory(+size);
 
         const device = {
             name: inputName.current.value.trim(),
             company: inputCompany.current.value.trim(),
-            size: inputSize.current.value.trim().replace(',', '.'),
-            category: category[select.current.value],
+            size,
+            category,
             measurements
         };
         
@@ -151,7 +145,6 @@ function PanelForm() {
                     <PanelFormInput ref={inputName} text="Device's name" placeholder="Type device's name" />
                     <PanelFormInput ref={inputCompany} text="Company's name" placeholder="Type company's name" />
                     <PanelFormInput ref={inputSize} text="Device's Size in liters" placeholder="Type devices's volume" />
-                    <PanelFormSelect ref={select} />
                     <PanelFormUpload 
                         fileName={file.name}
                         showValidation={file.showValidation}

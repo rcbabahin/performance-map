@@ -68,3 +68,43 @@ export const companyColors = {
     'Xiaomi': '#F8CBAD',
     'Yandex': '#82ca9d'
 };
+
+export const chooseCategory = (size) => {
+    const category = {
+        'Mini': {
+            name: 'xs',
+            min: 0,
+            max: 0.625
+        },
+        'Small': {
+            name: 's',
+            min: 0.625,
+            max: 1.30
+        },
+        'Medium': {
+            name: 'm',
+            min: 1.30,
+            max: 2.5
+        },
+        'Large': {
+            name: 'l',
+            min: 2.5,
+            max: 5
+        },
+        'Extra Large': {
+            name: 'xl',
+            min: 5,
+            max: 99999
+        },
+    };
+
+    let retval = 'xs';
+
+    Object.keys(category).map(cat => {
+        const { name, min, max } = category[cat]
+        if (size >= min && size <= max) 
+            retval = name;
+    });
+
+    return retval;
+}

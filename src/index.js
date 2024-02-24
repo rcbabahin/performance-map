@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import reportWebVitals from './reportWebVitals.js';
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { Provider } from 'react-redux';
 
@@ -79,10 +78,7 @@ const router = createBrowserRouter([
         ],
         errorElement: <ErrorPage />,
     },
-],
-{
-    basename: '/performance-map'
-});
+]);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
@@ -94,4 +90,3 @@ root.render(
   </React.StrictMode>
 );
 
-reportWebVitals();

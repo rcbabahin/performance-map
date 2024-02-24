@@ -15,15 +15,17 @@ import {
     getDevices, 
     selectCompanies, 
     selectDevicesStatus, 
-    selectDevices 
+    selectDevices,
+    selectSizeCategoriesArray
 } from "../../reducers/devices.js";
 import { 
     selectSPLGraphData, 
     selectSPLWeight,
     handleActiveDevice, 
     selectCurrentCompany, 
+    selectCurrentCategory,
     selectFilteredDevices, 
-    setCompany, 
+    setFilteredDevices,
     setSPLWeight
 } from "../../reducers/compare.js";
 
@@ -37,11 +39,13 @@ function CompareSPL() {
     const measurements = useSelector(selectMeasurements);
 
     const companies = useSelector(selectCompanies);
+    const categories = useSelector(selectSizeCategoriesArray);
 
     const filteredDevices = useSelector(selectFilteredDevices);
     const splData = useSelector(selectSPLGraphData);
     const splWeight = useSelector(selectSPLWeight);
     const currentCompany = useSelector(selectCurrentCompany);
+    const currentCategory = useSelector(selectCurrentCategory);
 
     useEffect(() => {
         if (devicesStatus === 'idle') {
@@ -52,7 +56,7 @@ function CompareSPL() {
             dispatch(getMeasurements());
         }
 
-        dispatch(setCompany({ devices, company: 'All' }));
+        dispatch(setFilteredDevices({ devices, company: 'All', category: 'All' }));
     }, [devices]);
 
     const handleAddDevice = (id) => (e) => {
@@ -62,11 +66,16 @@ function CompareSPL() {
         dispatch(handleActiveDevice({ id, measurements, name }));
     }
 
-    const handleFilterClick = (e) => {
+    const handleFilterClick = (type) => (e) => {
         
 		const innerText = e.target.innerText;
 
-        dispatch(setCompany({ devices, company: innerText }));
+        if (type === 'company') {
+            dispatch(setFilteredDevices({ devices, company: innerText, category: currentCategory}));
+        }
+        else if (type === 'category') {
+            dispatch(setFilteredDevices({ devices, company: currentCompany, category: innerText}));
+        }
 	}
 
     const handleShowGraphData = (e) => {
@@ -86,7 +95,7 @@ function CompareSPL() {
     return (
         <div>
             <h1 className="compare-header">Sound Pressure Level</h1>
-            <FilterBox 
+            {/* <FilterBox 
                 data={[
                     'Z-weightened',
                     'A-weightened',
@@ -95,11 +104,17 @@ function CompareSPL() {
                 filter={`${splWeight}-weightened`}
                 handleClick={handleShowGraphData}
                 className="filter-box"
-            />
+            /> */}
             <FilterBox 
                 data={companies}
                 filter={currentCompany}
-                handleClick={handleFilterClick}
+                handleClick={handleFilterClick('company')}
+                className="filter-box"
+            />
+            <FilterBox 
+                data={categories}
+                filter={currentCategory}
+                handleClick={handleFilterClick('category')}
                 className="filter-box"
             />
             <DevicesList 

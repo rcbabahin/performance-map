@@ -3,29 +3,47 @@ import { createSlice, current } from '@reduxjs/toolkit';
 const initialState = {
     filteredDevices: [],
     currentCompany: 'All',
+    currentCategory: 'All',
     graph: {
         bass: { data: [] },
         spl: { data: [], weight: 'Z' },
         thd: { data: [] }
-    }
+    },
+    categoriesObject: {
+        'All': 'All',
+        'xs': 'Mini',
+        's': 'Small',
+        'm': 'Medium',
+        'l': 'Large',
+        'xl': 'Extra Large'
+    },
 }
 
 const compareSlice = createSlice({
     name: 'compare',
     initialState,
     reducers: {
-        setCompany(state, action) {
-            const { devices, company } = action.payload;
+        setFilteredDevices(state, action) {
+            const { devices, company, category } = action.payload;
 
             state.currentCompany = company;
+            state.currentCategory = category;
 
-            state.filteredDevices = devices.filter(device => {
-                if (company === 'All') {
-                    return true;
-                } else {
-                    return device.company === company;
-                }
-            });
+            state.filteredDevices = devices
+                .filter(device => {
+                    if (company === 'All') {
+                        return true;
+                    } else {
+                        return device.company === company;
+                    }
+                })
+                .filter(device => {
+                    if (category === 'All') {
+                        return true;
+                    } else {
+                        return initialState.categoriesObject[device.category] === category;
+                    }
+                })
         },
         handleActiveDevice(state, action) {
             const { id, measurements, name } = action.payload;
@@ -65,12 +83,13 @@ const compareSlice = createSlice({
 
 export const selectFilteredDevices = state => state.compare.filteredDevices;
 export const selectCurrentCompany = state => state.compare.currentCompany;
+export const selectCurrentCategory = state => state.compare.currentCategory;
 export const selectBassGraphData = state => state.compare.graph.bass.data;
 export const selectSPLGraphData = state => state.compare.graph.spl.data;
 export const selectTHDGraphData = state => state.compare.graph.thd.data;
 export const selectSPLWeight = state => state.compare.graph.spl.weight
 
-export const { setCompany, handleActiveDevice, setSPLWeight } = compareSlice.actions;
+export const { setFilteredDevices, handleActiveDevice, setSPLWeight } = compareSlice.actions;
 
 export default compareSlice.reducer;
 
