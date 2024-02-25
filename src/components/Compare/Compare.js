@@ -2,6 +2,8 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import GraphBassMulty from "./GraphBassMulty.js";
+import GraphSPLMulty from "./GraphSPLMulty.js";
+import GraphTHDMulty from "./GraphTHDMulty.js";
 import FilterBox from "../FilterBox/FilterBox.js";
 import DevicesList from "./DevicesList.js";
 import GraphLinesNames from "./GraphLinesNames.js";
@@ -21,13 +23,19 @@ import {
 import { 
     handleActiveDevice, 
     selectBassGraphData, 
+    selectTHDGraphData,
+    selectSPLGraphData,
+    selectSPLWeight,
     selectCurrentCompany, 
     selectCurrentCategory,
     selectFilteredDevices, 
-    setFilteredDevices
+    setFilteredDevices,
+    selectCurrentGraph,
+    setActiveGraph
 } from "../../reducers/compare.js";
+import CompareHeaderItem from "./CompareHeaderItem.js";
 
-function CompareBass() {
+function Compare() {
     const dispatch = useDispatch();
 
     const devicesStatus = useSelector(selectDevicesStatus);
@@ -41,8 +49,13 @@ function CompareBass() {
 
     const filteredDevices = useSelector(selectFilteredDevices);
     const bassData = useSelector(selectBassGraphData);
+    const thdData = useSelector(selectTHDGraphData);
+    const splData = useSelector(selectSPLGraphData);
+    const splWeight = useSelector(selectSPLWeight);
+
     const currentCompany = useSelector(selectCurrentCompany);
     const currentCategory = useSelector(selectCurrentCategory);
+    const currentGraph = useSelector(selectCurrentGraph);
 
     useEffect(() => {
         if (devicesStatus === 'idle') {
@@ -75,15 +88,58 @@ function CompareBass() {
         }
 	}
 
+    const handleActiveGraph = (e) => {
+
+		const innerText = e.target.innerText.toLowerCase();
+
+        dispatch(setActiveGraph({ graph: innerText }));
+	}
+
     if (devicesStatus === 'loading' || measurementsStatus === 'loading') {
         return <div className='loading'/>
     } else if (devicesStatus === 'failed' || measurementsStatus === 'failed') {
         return <div className="something-went-wrong">Downloading failed ಠ﹏ಠ</div>
     }
 
+    let contentGraph, contentGraphNames;
+
+    if (currentGraph === 'bass') {
+        contentGraph = <GraphBassMulty data={bassData}/>
+        contentGraphNames = <GraphLinesNames selectedDevices={bassData} />
+    }
+    else if (currentGraph === 'spl') {
+        contentGraph = <GraphSPLMulty data={splData} dataKey={splWeight} />
+        contentGraphNames = <GraphLinesNames selectedDevices={splData} />
+    }
+    else if (currentGraph === 'thd') {
+        contentGraph = <GraphTHDMulty data={thdData} />
+        contentGraphNames = <GraphLinesNames selectedDevices={thdData} />
+    }
+
     return (
         <div>
-            <h1 className="compare-header">Bass</h1>
+            <div className="compare-header-container">
+                <CompareHeaderItem 
+                    text='Rectangle'
+                    active={currentGraph}
+                    handleClick={(e) => {}}
+                />
+                <CompareHeaderItem 
+                    text='Bass'
+                    active={currentGraph}
+                    handleClick={handleActiveGraph}
+                />
+                <CompareHeaderItem 
+                    text='SPL'
+                    active={currentGraph}
+                    handleClick={handleActiveGraph}
+                />
+                <CompareHeaderItem 
+                    text='THD'
+                    active={currentGraph}
+                    handleClick={handleActiveGraph}
+                />
+            </div>
             <FilterBox 
                 data={companies}
                 filter={currentCompany}
@@ -101,10 +157,10 @@ function CompareBass() {
                 selectedDevices={bassData}
                 handleClick={handleAddDevice}
             />
-            <GraphLinesNames selectedDevices={bassData} />
-            <GraphBassMulty data={bassData}/>
+            { contentGraphNames }
+            { contentGraph }
         </div>
     );
 }
 
-export default CompareBass;
+export default Compare;

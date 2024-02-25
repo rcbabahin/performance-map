@@ -1,6 +1,6 @@
-// const API_ROOT = 'http://localhost:3001';
+const API_ROOT = 'http://localhost:3001/api';
 // const API_ROOT = 'https://spm-2ui0.onrender.com';
-const API_ROOT = 'http://158.160.31.240/api';
+// const API_ROOT = 'http://158.160.31.240/api';
  
 export const httpPostDevice = async (device) => {
     try {

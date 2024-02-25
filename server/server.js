@@ -25,6 +25,7 @@ const db = knex({
         user: 'postgres',
         password: process.env.DB_PASS,
         database: process.env.DB_NAME
+        // connectionString: process.env.DB_LINK,
     }
 });
 

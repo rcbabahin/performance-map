@@ -2,6 +2,7 @@ import { createSlice, current } from '@reduxjs/toolkit';
 
 const initialState = {
     filteredDevices: [],
+    currentGraph: 'bass',
     currentCompany: 'All',
     currentCategory: 'All',
     graph: {
@@ -45,6 +46,11 @@ const compareSlice = createSlice({
                     }
                 })
         },
+        setActiveGraph(state, action) {
+            const { graph } = action.payload;
+
+            state.currentGraph = graph;
+        },
         handleActiveDevice(state, action) {
             const { id, measurements, name } = action.payload;
 
@@ -82,6 +88,7 @@ const compareSlice = createSlice({
 })
 
 export const selectFilteredDevices = state => state.compare.filteredDevices;
+export const selectCurrentGraph = state => state.compare.currentGraph;
 export const selectCurrentCompany = state => state.compare.currentCompany;
 export const selectCurrentCategory = state => state.compare.currentCategory;
 export const selectBassGraphData = state => state.compare.graph.bass.data;
@@ -89,7 +96,7 @@ export const selectSPLGraphData = state => state.compare.graph.spl.data;
 export const selectTHDGraphData = state => state.compare.graph.thd.data;
 export const selectSPLWeight = state => state.compare.graph.spl.weight
 
-export const { setFilteredDevices, handleActiveDevice, setSPLWeight } = compareSlice.actions;
+export const { setFilteredDevices, handleActiveDevice, setSPLWeight, setActiveGraph } = compareSlice.actions;
 
 export default compareSlice.reducer;
 

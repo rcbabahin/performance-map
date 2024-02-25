@@ -12,9 +12,7 @@ import PanelForm from './components/PanelForm/PanelForm.js';
 import Calculations from './components/Calculations/Calculations.js';
 import RatingsBySize from './components/Ratings/RatingsBySize.js';
 import RatingsAllDevices from './components/Ratings/RatingsAllDevices.js';
-import CompareBass from './components/Compare/CompareBass.js';
-import CompareSPL from './components/Compare/CompareSPL.js';
-import CompareTHD from './components/Compare/CompareTHD.js';
+import Compare from './components/Compare/Compare.js';
 import Devices from './components/Devices/Devices.js';
 import EditDeviceForm from './components/Devices/EditDeviceForm.js'
 
@@ -55,16 +53,8 @@ const router = createBrowserRouter([
                 element: <Info />
             },
             {
-                path: 'compare-bass',
-                element: <CompareBass />
-            },
-            {
-                path: 'compare-spl',
-                element: <CompareSPL />
-            },
-            {
-                path: 'compare-thd',
-                element: <CompareTHD />
+                path: 'compare',
+                element: <Compare />
             },
             {
                 path: 'devices',

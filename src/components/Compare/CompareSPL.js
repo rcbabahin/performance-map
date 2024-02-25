@@ -78,13 +78,13 @@ function CompareSPL() {
         }
 	}
 
-    const handleShowGraphData = (e) => {
+    // const handleShowGraphData = (e) => {
         
-        const innerText = e.target.innerText;
-        const weight = innerText[0];
+    //     const innerText = e.target.innerText;
+    //     const weight = innerText[0];
 
-        dispatch(setSPLWeight({ weight }));
-    }
+    //     dispatch(setSPLWeight({ weight }));
+    // }
 
     if (devicesStatus === 'loading' || measurementsStatus === 'loading') {
         return <div className='loading'/>

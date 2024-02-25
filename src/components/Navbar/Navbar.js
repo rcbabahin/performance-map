@@ -38,22 +38,8 @@ function Navbar({ handleSignClick, isSigned }) {
                     </li>
                 }
                 { isSigned && 
-                    <li 
-                        className='compare'
-                        onMouseEnter={handleMenuShow('compare', true)} 
-                        onMouseLeave={handleMenuShow('compare', false)}
-                    >
-                        <div className='ratings'>
-                            <span>Compare</span> 
-                            <span style={{ paddingLeft: '10px'}}><FontAwesomeIcon icon={faAngleDown}  size="xs" /></span>
-                        </div>
-                        { showCompare &&
-                            <div className='menu-options'>
-                                <Link to='/compare-bass' className='element-underline'>Bass</Link>
-                                <Link to='/compare-spl' className='element-underline'>SPL</Link>
-                                <Link to='/compare-thd' className='element-underline'>THD</Link>
-                            </div>
-                        }
+                    <li className='nav-signup'>
+                        <Link to='/compare' className='element-underline'>Compare</Link>
                     </li>
                 }
                 { isSigned && 
